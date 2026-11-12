@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MOZ AJUDA</title>
+<style>
+body{margin:0;font-family:Arial;background:#FFF8F0;color:#222;padding-bottom:100px}
+.top{background:#0F7A55;color:white;padding:22px 16px;text-align:center}
+.top h1{margin:0;font-size:34px;letter-spacing:2px}
+.top p{margin:8px 0 0;line-height:1.5;font-size:14px}
+.top2{display:flex;gap:8px;justify-content:center;margin-top:12px}
+.top2 button{border:0;padding:8px 14px;border-radius:20px;font-weight:bold;background:white;color:#0F7A55}
+.menu{display:flex;gap:8px;padding:12px}
+.menu button{flex:1;border:0;padding:14px;border-radius:16px;font-weight:bold;background:white}
+.menu button.on{background:#0F7A55;color:white}
+.filtro{display:flex;gap:8px;padding:0 12px 12px;overflow-x:auto}
+.filtro button{border:1px solid #0F7A55;background:white;color:#0F7A55;padding:9px 12px;border-radius:20px;font-weight:bold;white-space:nowrap}
+.filtro button.on{background:#0F7A55;color:white}
+.card{background:white;margin:0 12px 12px;padding:16px;border-radius:16px;line-height:1.6;white-space:pre-line;color:#222}
+.tag{color:#E65100;font-weight:bold;font-size:12px}
+.passo{background:#F0FDF4;padding:10px;border-radius:10px;margin:8px 0;white-space:pre-line;color:#222}
+input,select,textarea{width:100%;padding:12px;border:1px solid #DDD;border-radius:10px;margin:8px 0;font-size:15px;background:white;color:#222}
+.btn{width:calc(100% - 24px);margin:8px 12px;background:#25D366;color:white;border:0;padding:14px;border-radius:12px;font-weight:bold}
+.btn2{width:calc(100% - 24px);margin:4px 12px;background:#0F7A55;color:white;border:0;padding:12px;border-radius:12px;font-weight:bold}
+.btnFav{background:#FFF3E0;border:1px solid #E65100;color:#E65100;padding:8px 12px;border-radius:10px;font-weight:bold;margin-bottom:8px}
+.btnFav.on{background:#E65100;color:white}
+.btnZap{background:#25D366;color:white;border:0;padding:10px 14px;border-radius:10px;font-weight:bold;margin-top:8px}
+footer{position:fixed;bottom:0;left:0;right:0;background:white;display:flex;justify-content:space-around;padding:12px 0;border-top:1px solid #EEE}
+footer div{font-size:12px;color:#888;font-weight:bold;text-align:center}
+.box{background:white;margin:12px;padding:16px;border-radius:16px;color:#222}
+#resTrad{background:#EEF2F0;padding:14px;border-radius:12px;margin:8px 0;white-space:pre-line;color:#222}
+body.dark{background:#121212;color:white}
+body.dark .card{background:#1E1E1E;color:white}
+body.dark .passo{background:#2A2A2A;color:white}
+body.dark .box{background:#1E1E1E;color:white}
+body.dark .menu button{background:#333;color:white}
+body.dark .filtro button{background:#222;color:white}
+body.dark input,body.dark select,body.dark textarea{background:#333;color:white;border:1px solid #555}
+body.dark #resTrad{background:#2A2A2A;color:white}
+body.dark footer{background:#1E1E1E}
+body.dark footer div{color:#BBB}
+</style>
+</head>
+<body>
+<div class="top">
+<h1>MOZ AJUDA</h1>
+<p>Para adolescentes de Mocambique.<br>Trabalhos reais que podes comecar hoje.</p>
+<div class="top2">
+<button onclick="abrirSettings()">SETTINGS</button>
+<button onclick="abrirAdmin()">ADMIN</button>
+<button onclick="mostra('fav')">FAVORITOS</button>
+</div>
+</div>
+
+<div class="menu">
+<button id="b-dinheiro" class="on" onclick="mostra('dinheiro')">FAZER DINHEIRO</button>
+<button id="b-trad" onclick="mostra('trad')">TRADUTOR</button>
+</div>
+
+<div id="filtros" class="filtro">
+<button id="f-todas" class="on" onclick="setFiltro('todas')">Todas</button>
+<button id="f-on" onclick="setFiltro('on')">Na Internet</button>
+<button id="f-off" onclick="setFiltro('off')">Na Vida Real</button>
+</div>
+
+<div id="conteudo"><div class="card">A carregar...</div></div>
+<button class="btn" onclick="partilhar()">Partilhar no WhatsApp</button>
+
+<div id="settingsBox" class="box" style="display:none">
+<h3>SETTINGS</h3>
+<button class="btn2" onclick="toggleDark()">Ligar / Desligar Modo Escuro</button>
+<button class="btn2" onclick="mudaLetra(1)">Letra Grande</button>
+<button class="btn2" onclick="mudaLetra(0)">Letra Normal</button>
+<button class="btn2" onclick="fecharTudo()">Fechar</button>
+</div>
+
+<div id="adminBox" class="box" style="display:none">
+<h3>ADMIN - S&Oacute; O DONO</h3>
+<input id="senha" type="password" placeholder="Senha do dono">
+<button class="btn2" onclick="entrar()">Entrar como Dono</button>
+<div id="adminArea" style="display:none">
+<p id="msgAdmin"></p>
+<p><b>Adicionar ideia nova:</b></p>
+<input id="novaTitulo" placeholder="Titulo: Ex: Vender pulseiras">
+<input id="novaLucro" placeholder="Lucro: Ex: 500MT por semana">
+<textarea id="novaPassos" placeholder="Passos: 1. Faz... 2. Vende..."></textarea>
+<input id="novaTel" placeholder="Telefone para contactar: Ex: 841234567">
+<select id="novaTipo"><option value="on">Na Internet</option><option value="off">Na Vida Real</option></select>
+<button class="btn2" onclick="addIdeia()">Adicionar Ideia</button>
+<p style="font-size:12px;color:#888">O telefone vai aparecer na ideia como botao Contactar no WhatsApp. Se nao quiseres mostrar, deixa vazio.</p>
+<button class="btn2" onclick="fecharTudo()">Fechar</button>
+</div>
+</div>
+
+<footer><div onclick="mostra('dinheiro')">DINHEIRO</div><div onclick="mostra('trad')">TRADUTOR</div><div onclick="abrirSettings()">SETTINGS</div><div onclick="abrirAdmin()">ADMIN</div></footer>
+
+<script>
+// MUDA A TUA SENHA AQUI - NINGUEM VE, SO TU NO CODIGO
+var SENHA = "Moz2026";
+var filtroAtual = 'todas';
+var favs = [];
+var ideias = [];
+ideias.push({t:"1. Editar Videos para TikTok",tipo:"on",custo:"0MT",lucro:"500MT a 2000MT por cliente",passos:"1. Baixa CapCut gratis.\n2. Edita 3 videos teus para mostrar.\n3. Oferece para lojas: 5 videos por 500MT.\n4. Entrega em 1 dia.",erro:"Nao entregar video escuro.",tel:""});
+ideias.push({t:"2. Criar Conteudo no TikTok",tipo:"on",custo:"0MT",lucro:"1000MT a 5000MT com promocoes",passos:"1. Escolhe 1 tema: escola, futebol, moda.\n2. Posta 1 video de 15 seg por dia.\n3. Usa som da moda + legenda grande.\n4. Com 1000 seguidores, cobra 300MT por loja.",erro:"Nao desistir no 5o video.",tel:""});
+ideias.push({t:"3. Design no Canva para Lojas",tipo:"on",custo:"0MT",lucro:"500MT a 1500MT por loja",passos:"1. Cria conta Canva gratis.\n2. Faz 3 exemplos: Post, Menu, Cartaz.\n3. Mostra para loja: 5 posts por 500MT.\n4. Entrega no WhatsApp.",erro:"Nao copiar design de outro.",tel:""});
+ideias.push({t:"4. Gerir Instagram de Loja",tipo:"on",custo:"0MT",lucro:"1000MT a 2500MT por mes",passos:"1. Aprende: postar 3x semana.\n2. Oferece: Cuido do Instagram por 1000MT por mes.\n3. Tira fotos, escreve preco + WhatsApp.\n4. Mostra seguidores novos no fim do mes.",erro:"Nao postar 1 vez e sumir.",tel:""});
+ideias.push({t:"5. Vender Roupa no Instagram",tipo:"on",custo:"500MT",lucro:"1000MT a 3000MT por mes",passos:"1. Compra 10 pecas boas no Xipamanine.\n2. Cria Instagram so para loja.\n3. Foto com luz do dia + tamanho + preco.\n4. Entrega +20MT.",erro:"Nao mentir no tamanho.",tel:""});
+ideias.push({t:"6. Dar Explicacao Online",tipo:"on",custo:"0MT",lucro:"200MT por aluno por semana",passos:"1. Escolhe materia: Matematica 8a, Ingles.\n2. Grupo WhatsApp: Aula 2x semana.\n3. 1 tema + 5 exercicios por aula.\n4. Cobra 200MT por semana.",erro:"Nao faltar aula.",tel:""});
+ideias.push({t:"7. Fazer Logos",tipo:"on",custo:"0MT",lucro:"300MT a 800MT por logo",passos:"1. Ve no YouTube: Como fazer logo no Canva.\n2. Faz 3 logos gratis para lojas.\n3. Oferece: Logo 500MT, 1 dia.\n4. Entrega PNG.",erro:"Nao usar logo de outro.",tel:""});
+ideias.push({t:"8. Vender no Marketplace",tipo:"on",custo:"0MT",lucro:"1000MT a 4000MT por mes",passos:"1. Foto boa, preco, bairro.\n2. Vende: celular usado, roupa, fones.\n3. Responde rapido, encontro publico.\n4. Nunca envia sem receber.",erro:"Nao ir a casa de estranho sozinho.",tel:""});
+ideias.push({t:"9. Assistente Virtual",tipo:"on",custo:"0MT",lucro:"1500MT a 4000MT por mes",passos:"1. Aprende: responder WhatsApp, Excel.\n2. Oferece: Organizo teu WhatsApp por 1500MT por mes.\n3. Trabalha 1h por dia.",erro:"Nao prometer o que nao sabes.",tel:""});
+ideias.push({t:"10. Live a Vender Roupa",tipo:"on",custo:"300MT",lucro:"1500MT a 3000MT por live",passos:"1. Junta 20 pecas.\n2. Marca live: Sabado 18h.\n3. Mostra peca por peca, quem comentar COMPRO leva.\n4. Entrega no dia seguinte.",erro:"Nao fazer live com internet fraca.",tel:""});
+ideias.push({t:"11. Fotos para Eventos",tipo:"off",custo:"0MT",lucro:"500MT a 1500MT por festa",passos:"1. Pratica com amigos, edita no Snapseed.\n2. Oferece: Fotos da festa 500MT, 50 fotos.\n3. Vai cedo, tira foto de todos.\n4. Entrega no mesmo dia.",erro:"Nao entregar foto escura.",tel:""});
+ideias.push({t:"12. Trancas e Penteados",tipo:"off",custo:"300MT",lucro:"300MT a 800MT por cliente",passos:"1. Pratica gratis 2x na irma, tira foto.\n2. Status: Trancas 300MT.\n3. Marca 1 por vez.\n4. Cliente traz extensao.",erro:"Nao puxar forte, doi.",tel:""});
+ideias.push({t:"13. Unhas ao Domicilio",tipo:"off",custo:"400MT",lucro:"250MT a 500MT por cliente",passos:"1. Compra 5 cores.\n2. 3 vizinhas gratis para treinar.\n3. Cobra 150MT simples, 250MT com desenho.\n4. Vai a casa da cliente.",erro:"Nao usar verniz vencido.",tel:""});
+ideias.push({t:"14. Organizar Festas",tipo:"off",custo:"500MT",lucro:"1000MT a 2500MT por festa",passos:"1. Aprende no YouTube: Decoracao simples.\n2. Oferece: Decoro por 1000MT.\n3. Compra baloes, faz arco.\n4. Tira foto, posta.",erro:"Nao chegar atrasado.",tel:""});
+ideias.push({t:"15. Treino de Futebol para Miudos",tipo:"off",custo:"0MT",lucro:"200MT por miudo por mes",passos:"1. Junta 10 miudos.\n2. Treino 2x semana, 1h.\n3. Cobra 200MT por mes.\n4. Se fores pontual, pais pagam.",erro:"Nao faltar treino.",tel:""});
+
+// TIRA ACENTOS DE VERDADE - FUNCIONA COM OU SEM ACENTO
+function limpa(s){
+  s = s.toLowerCase().trim();
+  s = s.normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+  s = s.replace(/[?!.,]/g,"");
+  s = s.replace(/\s+/g," ");
+  return s;
+}
+function renderIdeias(){
+  var c = document.getElementById('conteudo');
+  var html = "<div class='card'><b>15 Trabalhos Praticos</b>\nClica em GUARDAR para guardar nos Favoritos.\nEscolhe 1 e comeca hoje.</div>";
+  for(var i=0;i<ideias.length;i++){
+    var it = ideias[i];
+    if(filtroAtual!=='todas' && it.tipo!==filtroAtual) continue;
+    var badge = it.tipo==='on' ? "NA INTERNET" : "NA VIDA REAL";
+    var guardado = favs.indexOf(i)>-1;
+    var txtBtn = guardado ? "GUARDADO - CLICA PARA TIRAR" : "GUARDAR NOS FAVORITOS";
+    var cls = guardado ? "btnFav on" : "btnFav";
+    var zap = "";
+    if(it.tel){ zap = "<br><button class='btnZap' onclick=\"window.open('https://wa.me/258"+it.tel.replace(/[^0-9]/g,'')+"?text=Ola, vi a tua ideia no MOZ AJUDA')\">Contactar: "+it.tel+" no WhatsApp</button>"; }
+    html += "<div class='card'><button class='"+cls+"' onclick='favoritar("+i+")'>"+txtBtn+"</button>\n<span class='tag'>"+badge+"</span>\n<b>"+it.t+"</b>\nComecar: "+it.custo+" | Lucro: "+it.lucro+"\n\n<div class='passo'>"+it.passos+"</div>\n<b>Erro a evitar:</b> "+it.erro+zap+"</div>";
+  }
+  c.innerHTML = html;
+}
+function favoritar(i){
+  var p = favs.indexOf(i);
+  if(p>-1){ favs.splice(p,1); } else { favs.push(i); }
+  renderIdeias();
+}
+function setFiltro(f){
+  filtroAtual = f;
+  document.getElementById('f-todas').className = f==='todas'?'on':'';
+  document.getElementById('f-on').className = f==='on'?'on':'';
+  document.getElementById('f-off').className = f==='off'?'on':'';
+  mostra('dinheiro');
+}
+function mostra(qual){
+  document.getElementById('b-dinheiro').className = qual==='dinheiro' ? 'on' : '';
+  document.getElementById('b-trad').className = qual==='trad' ? 'on' : '';
+  document.getElementById('filtros').style.display = qual==='dinheiro' ? 'flex' : 'none';
+  var c = document.getElementById('conteudo');
+  if(qual==='dinheiro'){ renderIdeias(); }
+  if(qual==='fav'){
+    var h = "<div class='card'><b>MEUS FAVORITOS</b>\nAqui ficam as ideias que guardaste.</div>";
+    if(favs.length===0){ h += "<div class='card'>Ainda nao tens favoritos. Clica em GUARDAR numa ideia.</div>"; }
+    for(var i=0;i<favs.length;i++){ var it = ideias[favs[i]]; h += "<div class='card'><b>"+it.t+"</b>\nLucro: "+it.lucro+"\n\n<div class='passo'>"+it.passos+"</div></div>"; }
+    c.innerHTML = h;
+  }
+  if(qual==='trad'){
+    var h2 = "<div class='card'><b>TRADUTOR TOTAL - Todas as linguas</b>\nEscreve QUALQUER frase. Em baixo aparece COMO LER.\nTenta: Tudo bem, Como vai, Estou com fome, Onde moras, Qual e o teu nome</div>";
+    h2 += "<div style='padding:0 12px'><textarea id='textoTrad' rows='2' placeholder='Escreve aqui... Ex: Tudo bem?'></textarea>";
+    h2 += "<label>Para:</label><select id='paraLingua'><option value='en'>Ingles</option><option value='fr'>Frances</option><option value='es'>Espanhol</option><option value='de'>Alemao</option><option value='it'>Italiano</option><option value='pt'>Portugues</option><option value='zh-CN'>Chines</option><option value='ar'>Arabe</option><option value='hi'>Hindi</option><option value='ru'>Russo</option><option value='ja'>Japones</option><option value='ko'>Coreano</option><option value='sw'>Swahili</option><option value='zu'>Zulu</option><option value='changana'>Changana</option><option value='ronga'>Ronga</option><option value='sena'>Sena</option><option value='ndau'>Ndau</option><option value='makhuwa'>Makhuwa</option><option value='shona'>Shona</option><option value='xhosa'>Xhosa</option><option value='sotho'>Sotho</option><option value='yo'>Ioruba</option><option value='ig'>Igbo</option><option value='ha'>Hausa</option><option value='am'>Amharico</option><option value='af'>Afrikaans</option></select>";
+    h2 += "<button onclick='traduzirTotal()' style='width:100%;background:#0F7A55;color:white;border:0;padding:14px;border-radius:12px;font-weight:bold'>Traduzir Agora</button>";
+    h2 += "<div id='resTrad'>Resultado aparece aqui...</div></div>";
+    h2 += "<div class='card'><b>30 FRASES QUE JA TEM PRONUNCIA COMPLETA</b>\nBom dia, Obrigado, Como estas, Tudo bem, Como vai, Estou bem, Estou com fome, Estou cansado, Quanto custa, Agua, Dinheiro, Comida, Casa, Escola, Amigo, Familia, Mae, Pai, Hoje, Amanha, Sim, Nao, Amor, Por favor, Desculpa, Onde moras, Qual e o teu nome, Preciso de ajuda, Quero comprar, Deus te abencoe</div>";
+    h2 += "<div class='card'><b>DICIONARIO MOZ COM PRONUNCIA</b>\n\nBOM DIA - Changana: Minghani - le-se MIN-GA-NI | Sena: Mwadzuka bwanji | Ndau: Mwakadini | Makhuwa: Muhiu | Swahili: Habari za asubuhi | Zulu: Sawubona\n\nOBRIGADO - Changana: Ndza khensa - le-se NZA KEN-SA | Sena: Zikomo | Ndau: Ndatenda | Makhuwa: Koshukuru | Swahili: Asante | Zulu: Ngiyabonga\n\nTUDO BEM - Changana: Ku pfukile? - le-se KU PFU-KI-LE | Sena: Zili bwino? | Ndau: Zvakanaka? | Makhuwa: Kiiri saana? | Swahili: Mambo? | Zulu: Kunjani?\n\nCOMO ESTAS - Changana: U njhani | Sena: Muli bwanji | Ndau: Muri sei | Makhuwa: Muli sai | Swahili: Habari yako | Zulu: Unjani</div>";
+    c.innerHTML = h2;
+  }
+  window.scrollTo(0,200);
+}
+function traduzirTotal(){
+  var texto = document.getElementById('textoTrad').value.trim();
+  var para = document.getElementById('paraLingua').value;
+  var sel = document.getElementById('paraLingua');
+  var nomeLingua = sel.options[sel.selectedIndex].text;
+  var res = document.getElementById('resTrad');
+  if(!texto){ res.innerText="Escreve uma frase primeiro."; return; }
+  res.innerText="A traduzir... espera 2 segundos...";
+  var low = limpa(texto);
+  var moz = {
+    "bom dia": {changana:"Minghani - le-se: MIN-GA-NI", ronga:"Minghani - le-se: MIN-GA-NI", sena:"Mwadzuka bwanji - le-se: MUA-DZU-KA BUAN-JI", ndau:"Mwakadini - le-se: MUA-KA-DI-NI", makhuwa:"Muhiu - le-se: MU-HIU", shona:"Mhoro - le-se: MHO-RO", xhosa:"Molo - le-se: MO-LO", sotho:"Dumela - le-se: DU-ME-LA"},
+    "obrigado": {changana:"Ndza khensa - le-se: NZA KEN-SA", ronga:"Ndza khensa", sena:"Zikomo - le-se: ZI-KO-MO", ndau:"Ndatenda - le-se: NDA-TEN-DA", makhuwa:"Koshukuru - le-se: KO-SHU-KU-RU", shona:"Ndatenda", xhosa:"Enkosi - le-se: EN-KO-SI", sotho:"Ke a leboga - le-se: KE A LE-BO-GA"},
+    "como estas": {changana:"U njhani - le-se: U NJHA-NI", ronga:"U njhani", sena:"Muli bwanji - le-se: MU-LI BUAN-JI", ndau:"Muri sei - le-se: MU-RI SEI", makhuwa:"Muli sai - le-se: MU-LI SAI", shona:"Muri sei", xhosa:"Unjani - le-se: UN-JA-NI", sotho:"O kae - le-se: O KAE"},
+    "tudo bem": {changana:"Ku pfukile? - le-se: KU PFU-KI-LE", ronga:"Ku pfukile?", sena:"Zili bwino? - le-se: ZI-LI BUI-NO", ndau:"Zvakanaka? - le-se: ZVA-KA-NA-KA", makhuwa:"Kiiri saana? - le-se: KII-RI SA-A-NA", shona:"Zvakanaka?", xhosa:"Kunjani? - le-se: KUN-JA-NI", sotho:"O teng? - le-se: O TENG"},
+    "como vai": {changana:"U famba njhani? - le-se: U FAM-BA NJHA-NI", ronga:"U famba njhani?", sena:"Mukuyenda bwanji? - le-se: MU-KU-IEN-DA BUAN-JI", ndau:"Muri kufamba sei?", makhuwa:"Munrowa sai?", shona:"Muri kufamba sei?", xhosa:"Uhamba njani?", sotho:"O tsamaya jwang?"},
+    "estou bem": {changana:"Ndzi pfukile - le-se: NDZI PFU-KI-LE", ronga:"Ndzi pfukile", sena:"Ndili bwino", ndau:"Ndiri zvakanaka", makhuwa:"Kiiri saana", shona:"Ndiri zvakanaka", xhosa:"Ndiphilile", sotho:"Ke phetse"},
+    "estou com fome": {changana:"Ndzi na ndlala - le-se: NDZI NA NDLA-LA", ronga:"Ndzi na ndlala", sena:"Ndili ndi njala", ndau:"Ndine nzara", makhuwa:"Kiiri ni ettala", shona:"Ndine nzara", xhosa:"Ndilambile", sotho:"Ke lapile"},
+    "quanto custa": {changana:"Hi mali muni - le-se: HI MA-LI MU-NI", ronga:"Hi mali muni", sena:"Ndi ndalama zingati", ndau:"Imari yakadini", makhuwa:"Ntsurukhu", shona:"Imari yakadini", xhosa:"Malini - le-se: MA-LI-NI", sotho:"Ke bokae - le-se: KE BO-KAE"},
+    "agua": {changana:"Mati - le-se: MA-TI", ronga:"Mati", sena:"Madzi - le-se: MA-DZI", ndau:"Mvura", makhuwa:"Maasi", shona:"Mvura", xhosa:"Amanzi", sotho:"Metsi"},
+    "dinheiro": {changana:"Mali - le-se: MA-LI", ronga:"Mali", sena:"Ndalama", ndau:"Mari", makhuwa:"Etthu", shona:"Mari", xhosa:"Imali", sotho:"Tjhelete"},
+    "onde moras": {changana:"U tshama kwihi? - le-se: U TSHA-MA KUI-HI", ronga:"U tshama kwihi?", sena:"Umukhala kuti? - le-se: U-MU-KHA-LA KU-TI", ndau:"Unogara kupi?", makhuwa:"Munkhala vayi?", shona:"Unogara kupi?", xhosa:"Uhlala phi?", sotho:"O dula kae?"},
+    "qual e o teu nome": {changana:"Vito ra wena i mani? - le-se: VI-TO RA UE-NA", ronga:"Vito ra wena i mani?", sena:"Dzina lako ndani? - le-se: DZI-NA LA-KO NDA-NI", ndau:"Zita rako ndiani?", makhuwa:"Nsina nawo pani?", shona:"Zita rako ndiani?", xhosa:"Igama lakho ngubani?", sotho:"Lebitso la hao ke mang?"},
+    "preciso de ajuda": {changana:"Ndzi lava mpfuno - le-se: NDZI LA-VA MPFU-NO", ronga:"Ndzi lava mpfuno", sena:"Ndifuna thandizo", ndau:"Ndinoda rubatsiro", makhuwa:"Kinavara okhaviheriwa", shona:"Ndinoda rubatsiro", xhosa:"Ngidinga uncedo", sotho:"Ke hloka thuso"}
+  };
+  if(moz[low] && moz[low][para]){
+    res.innerText = "Original: " + texto + "\n\nTraduzido para " + nomeLingua + ": " + moz[low][para] + "\n\nTenta falar 3 vezes em voz alta.";
+    return;
+  }
+  if(para==='changana' || para==='ronga' || para==='sena' || para==='ndau' || para==='makhuwa' || para==='shona' || para==='xhosa' || para==='sotho'){
+    res.innerText = "Para " + nomeLingua + ", por agora tenho: Bom dia, Obrigado, Como estas, Tudo bem, Como vai, Estou bem, Estou com fome, Quanto custa, Agua, Dinheiro, Onde moras, Qual e o teu nome, Preciso de ajuda.\nEscreve uma dessas.";
+    return;
+  }
+  var pron = {
+    "como estas": { "zh-CN":"Ni hao ma? - le-se: NI RAU MA", "ja":"Genki desu ka? - le-se: GUEN-KI DES KA", "ar":"Kayfa haluk? - le-se: CAI-FA RA-LUKE", "ru":"Kak dela? - le-se: KAK DIE-LA", "hi":"Kaise ho? - le-se: CAI-SE RO", "ko":"Jal jinaeyo? - le-se: JAL JI-NA-IO" },
+    "tudo bem": { "zh-CN":"Hao ma? - le-se: RAU MA", "ja":"Daijoubu? - le-se: DAI-JOU-BU", "ar":"Kullu tamam? - le-se: KUL-LU TA-MAM", "ru":"Vse horosho? - le-se: FSE RO-RO-SHO", "hi":"Sab theek hai? - le-se: SAB TEEK RAI"
