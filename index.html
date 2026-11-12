@@ -52,21 +52,17 @@ body.dark footer div{color:#BBB}
 <button onclick="mostra('fav')">FAVORITOS</button>
 </div>
 </div>
-
 <div class="menu">
 <button id="b-dinheiro" class="on" onclick="mostra('dinheiro')">FAZER DINHEIRO</button>
 <button id="b-trad" onclick="mostra('trad')">TRADUTOR</button>
 </div>
-
 <div id="filtros" class="filtro">
 <button id="f-todas" class="on" onclick="setFiltro('todas')">Todas</button>
 <button id="f-on" onclick="setFiltro('on')">Na Internet</button>
 <button id="f-off" onclick="setFiltro('off')">Na Vida Real</button>
 </div>
-
 <div id="conteudo"><div class="card">A carregar...</div></div>
 <button class="btn" onclick="partilhar()">Partilhar no WhatsApp</button>
-
 <div id="settingsBox" class="box" style="display:none">
 <h3>SETTINGS</h3>
 <button class="btn2" onclick="toggleDark()">Ligar / Desligar Modo Escuro</button>
@@ -74,9 +70,8 @@ body.dark footer div{color:#BBB}
 <button class="btn2" onclick="mudaLetra(0)">Letra Normal</button>
 <button class="btn2" onclick="fecharTudo()">Fechar</button>
 </div>
-
 <div id="adminBox" class="box" style="display:none">
-<h3>ADMIN - S&Oacute; O DONO</h3>
+<h3>ADMIN - SO O DONO</h3>
 <input id="senha" type="password" placeholder="Senha do dono">
 <button class="btn2" onclick="entrar()">Entrar como Dono</button>
 <div id="adminArea" style="display:none">
@@ -88,15 +83,11 @@ body.dark footer div{color:#BBB}
 <input id="novaTel" placeholder="Telefone para contactar: Ex: 841234567">
 <select id="novaTipo"><option value="on">Na Internet</option><option value="off">Na Vida Real</option></select>
 <button class="btn2" onclick="addIdeia()">Adicionar Ideia</button>
-<p style="font-size:12px;color:#888">O telefone vai aparecer na ideia como botao Contactar no WhatsApp. Se nao quiseres mostrar, deixa vazio.</p>
 <button class="btn2" onclick="fecharTudo()">Fechar</button>
 </div>
 </div>
-
 <footer><div onclick="mostra('dinheiro')">DINHEIRO</div><div onclick="mostra('trad')">TRADUTOR</div><div onclick="abrirSettings()">SETTINGS</div><div onclick="abrirAdmin()">ADMIN</div></footer>
-
 <script>
-// MUDA A TUA SENHA AQUI - NINGUEM VE, SO TU NO CODIGO
 var SENHA = "Moz2026";
 var filtroAtual = 'todas';
 var favs = [];
@@ -115,100 +106,82 @@ ideias.push({t:"11. Fotos para Eventos",tipo:"off",custo:"0MT",lucro:"500MT a 15
 ideias.push({t:"12. Trancas e Penteados",tipo:"off",custo:"300MT",lucro:"300MT a 800MT por cliente",passos:"1. Pratica gratis 2x na irma, tira foto.\n2. Status: Trancas 300MT.\n3. Marca 1 por vez.\n4. Cliente traz extensao.",erro:"Nao puxar forte, doi.",tel:""});
 ideias.push({t:"13. Unhas ao Domicilio",tipo:"off",custo:"400MT",lucro:"250MT a 500MT por cliente",passos:"1. Compra 5 cores.\n2. 3 vizinhas gratis para treinar.\n3. Cobra 150MT simples, 250MT com desenho.\n4. Vai a casa da cliente.",erro:"Nao usar verniz vencido.",tel:""});
 ideias.push({t:"14. Organizar Festas",tipo:"off",custo:"500MT",lucro:"1000MT a 2500MT por festa",passos:"1. Aprende no YouTube: Decoracao simples.\n2. Oferece: Decoro por 1000MT.\n3. Compra baloes, faz arco.\n4. Tira foto, posta.",erro:"Nao chegar atrasado.",tel:""});
-ideias.push({t:"15. Treino de Futebol para Miudos",tipo:"off",custo:"0MT",lucro:"200MT por miudo por mes",passos:"1. Junta 10 miudos.\n2. Treino 2x semana, 1h.\n3. Cobra 200MT por mes.\n4. Se fores pontual, pais pagam.",erro:"Nao faltar treino.",tel:""});
-
-// TIRA ACENTOS DE VERDADE - FUNCIONA COM OU SEM ACENTO
-function limpa(s){
-  s = s.toLowerCase().trim();
-  s = s.normalize("NFD").replace(/[\u0300-\u036f]/g,"");
-  s = s.replace(/[?!.,]/g,"");
-  s = s.replace(/\s+/g," ");
-  return s;
-}
+ideias.push({t:"15. Treino de Futebol para Miudos",tipo:"off",custo:"0MT",lucro:"200MT por miudo por mes",passos:"1. Junta 10 miudos.\n2. Treino 2x semana, 1h.\n3. Cobra 200MT por mes.\n4. Se fores pontual, pais pagam.",erro:"Nao faltar treino.",tel:""});function limpa(s){s=s.toLowerCase().trim();s=s.normalize("NFD").replace(/[\u0300-\u036f]/g,"");s=s.replace(/[?!.,]/g,"");s=s.replace(/\s+/g," ");return s;}
 function renderIdeias(){
-  var c = document.getElementById('conteudo');
-  var html = "<div class='card'><b>15 Trabalhos Praticos</b>\nClica em GUARDAR para guardar nos Favoritos.\nEscolhe 1 e comeca hoje.</div>";
-  for(var i=0;i<ideias.length;i++){
-    var it = ideias[i];
-    if(filtroAtual!=='todas' && it.tipo!==filtroAtual) continue;
-    var badge = it.tipo==='on' ? "NA INTERNET" : "NA VIDA REAL";
-    var guardado = favs.indexOf(i)>-1;
-    var txtBtn = guardado ? "GUARDADO - CLICA PARA TIRAR" : "GUARDAR NOS FAVORITOS";
-    var cls = guardado ? "btnFav on" : "btnFav";
-    var zap = "";
-    if(it.tel){ zap = "<br><button class='btnZap' onclick=\"window.open('https://wa.me/258"+it.tel.replace(/[^0-9]/g,'')+"?text=Ola, vi a tua ideia no MOZ AJUDA')\">Contactar: "+it.tel+" no WhatsApp</button>"; }
-    html += "<div class='card'><button class='"+cls+"' onclick='favoritar("+i+")'>"+txtBtn+"</button>\n<span class='tag'>"+badge+"</span>\n<b>"+it.t+"</b>\nComecar: "+it.custo+" | Lucro: "+it.lucro+"\n\n<div class='passo'>"+it.passos+"</div>\n<b>Erro a evitar:</b> "+it.erro+zap+"</div>";
-  }
-  c.innerHTML = html;
+var c=document.getElementById('conteudo');
+var html="<div class='card'><b>15 Trabalhos Praticos</b>\nClica em GUARDAR para guardar nos Favoritos.\nEscolhe 1 e comeca hoje.</div>";
+for(var i=0;i<ideias.length;i++){var it=ideias[i];if(filtroAtual!=='todas'&&it.tipo!==filtroAtual)continue;var badge=it.tipo==='on'?"NA INTERNET":"NA VIDA REAL";var guardado=favs.indexOf(i)>-1;var txtBtn=guardado?"GUARDADO - CLICA PARA TIRAR":"GUARDAR NOS FAVORITOS";var cls=guardado?"btnFav on":"btnFav";var zap="";if(it.tel){zap="<br><button class='btnZap' onclick=\"window.open('https://wa.me/258"+it.tel.replace(/[^0-9]/g,'')+"?text=Ola, vi a tua ideia no MOZ AJUDA')\">Contactar: "+it.tel+" no WhatsApp</button>";}html+="<div class='card'><button class='"+cls+"' onclick='favoritar("+i+")'>"+txtBtn+"</button>\n<span class='tag'>"+badge+"</span>\n<b>"+it.t+"</b>\nComecar: "+it.custo+" | Lucro: "+it.lucro+"\n\n<div class='passo'>"+it.passos+"</div>\n<b>Erro a evitar:</b> "+it.erro+zap+"</div>";}
+c.innerHTML=html;
 }
-function favoritar(i){
-  var p = favs.indexOf(i);
-  if(p>-1){ favs.splice(p,1); } else { favs.push(i); }
-  renderIdeias();
-}
-function setFiltro(f){
-  filtroAtual = f;
-  document.getElementById('f-todas').className = f==='todas'?'on':'';
-  document.getElementById('f-on').className = f==='on'?'on':'';
-  document.getElementById('f-off').className = f==='off'?'on':'';
-  mostra('dinheiro');
-}
+function favoritar(i){var p=favs.indexOf(i);if(p>-1){favs.splice(p,1);}else{favs.push(i);}renderIdeias();}
+function setFiltro(f){filtroAtual=f;document.getElementById('f-todas').className=f==='todas'?'on':'';document.getElementById('f-on').className=f==='on'?'on':'';document.getElementById('f-off').className=f==='off'?'on':'';mostra('dinheiro');}
 function mostra(qual){
-  document.getElementById('b-dinheiro').className = qual==='dinheiro' ? 'on' : '';
-  document.getElementById('b-trad').className = qual==='trad' ? 'on' : '';
-  document.getElementById('filtros').style.display = qual==='dinheiro' ? 'flex' : 'none';
-  var c = document.getElementById('conteudo');
-  if(qual==='dinheiro'){ renderIdeias(); }
-  if(qual==='fav'){
-    var h = "<div class='card'><b>MEUS FAVORITOS</b>\nAqui ficam as ideias que guardaste.</div>";
-    if(favs.length===0){ h += "<div class='card'>Ainda nao tens favoritos. Clica em GUARDAR numa ideia.</div>"; }
-    for(var i=0;i<favs.length;i++){ var it = ideias[favs[i]]; h += "<div class='card'><b>"+it.t+"</b>\nLucro: "+it.lucro+"\n\n<div class='passo'>"+it.passos+"</div></div>"; }
-    c.innerHTML = h;
-  }
-  if(qual==='trad'){
-    var h2 = "<div class='card'><b>TRADUTOR TOTAL - Todas as linguas</b>\nEscreve QUALQUER frase. Em baixo aparece COMO LER.\nTenta: Tudo bem, Como vai, Estou com fome, Onde moras, Qual e o teu nome</div>";
-    h2 += "<div style='padding:0 12px'><textarea id='textoTrad' rows='2' placeholder='Escreve aqui... Ex: Tudo bem?'></textarea>";
-    h2 += "<label>Para:</label><select id='paraLingua'><option value='en'>Ingles</option><option value='fr'>Frances</option><option value='es'>Espanhol</option><option value='de'>Alemao</option><option value='it'>Italiano</option><option value='pt'>Portugues</option><option value='zh-CN'>Chines</option><option value='ar'>Arabe</option><option value='hi'>Hindi</option><option value='ru'>Russo</option><option value='ja'>Japones</option><option value='ko'>Coreano</option><option value='sw'>Swahili</option><option value='zu'>Zulu</option><option value='changana'>Changana</option><option value='ronga'>Ronga</option><option value='sena'>Sena</option><option value='ndau'>Ndau</option><option value='makhuwa'>Makhuwa</option><option value='shona'>Shona</option><option value='xhosa'>Xhosa</option><option value='sotho'>Sotho</option><option value='yo'>Ioruba</option><option value='ig'>Igbo</option><option value='ha'>Hausa</option><option value='am'>Amharico</option><option value='af'>Afrikaans</option></select>";
-    h2 += "<button onclick='traduzirTotal()' style='width:100%;background:#0F7A55;color:white;border:0;padding:14px;border-radius:12px;font-weight:bold'>Traduzir Agora</button>";
-    h2 += "<div id='resTrad'>Resultado aparece aqui...</div></div>";
-    h2 += "<div class='card'><b>30 FRASES QUE JA TEM PRONUNCIA COMPLETA</b>\nBom dia, Obrigado, Como estas, Tudo bem, Como vai, Estou bem, Estou com fome, Estou cansado, Quanto custa, Agua, Dinheiro, Comida, Casa, Escola, Amigo, Familia, Mae, Pai, Hoje, Amanha, Sim, Nao, Amor, Por favor, Desculpa, Onde moras, Qual e o teu nome, Preciso de ajuda, Quero comprar, Deus te abencoe</div>";
-    h2 += "<div class='card'><b>DICIONARIO MOZ COM PRONUNCIA</b>\n\nBOM DIA - Changana: Minghani - le-se MIN-GA-NI | Sena: Mwadzuka bwanji | Ndau: Mwakadini | Makhuwa: Muhiu | Swahili: Habari za asubuhi | Zulu: Sawubona\n\nOBRIGADO - Changana: Ndza khensa - le-se NZA KEN-SA | Sena: Zikomo | Ndau: Ndatenda | Makhuwa: Koshukuru | Swahili: Asante | Zulu: Ngiyabonga\n\nTUDO BEM - Changana: Ku pfukile? - le-se KU PFU-KI-LE | Sena: Zili bwino? | Ndau: Zvakanaka? | Makhuwa: Kiiri saana? | Swahili: Mambo? | Zulu: Kunjani?\n\nCOMO ESTAS - Changana: U njhani | Sena: Muli bwanji | Ndau: Muri sei | Makhuwa: Muli sai | Swahili: Habari yako | Zulu: Unjani</div>";
-    c.innerHTML = h2;
-  }
-  window.scrollTo(0,200);
+document.getElementById('b-dinheiro').className=qual==='dinheiro'?'on':'';document.getElementById('b-trad').className=qual==='trad'?'on':'';
+document.getElementById('filtros').style.display=qual==='dinheiro'?'flex':'none';
+var c=document.getElementById('conteudo');
+if(qual==='dinheiro'){renderIdeias();}
+if(qual==='fav'){var h="<div class='card'><b>MEUS FAVORITOS</b>\nAqui ficam as ideias que guardaste.</div>";if(favs.length===0){h+="<div class='card'>Ainda nao tens favoritos. Clica em GUARDAR numa ideia.</div>";}for(var i=0;i<favs.length;i++){var it=ideias[favs[i]];h+="<div class='card'><b>"+it.t+"</b>\nLucro: "+it.lucro+"\n\n<div class='passo'>"+it.passos+"</div></div>";}c.innerHTML=h;}
+if(qual==='trad'){
+var h2="<div class='card'><b>TRADUTOR TOTAL - Todas as linguas</b>\nEscreve QUALQUER frase. Em baixo aparece COMO LER.\nTenta: Tudo bem, Como vai, Estou com fome, Onde moras, Qual e o teu nome</div>";
+h2+="<div style='padding:0 12px'><textarea id='textoTrad' rows='2' placeholder='Escreve aqui... Ex: Tudo bem?'></textarea>";
+h2+="<label>Para:</label><select id='paraLingua'><option value='en'>Ingles</option><option value='fr'>Frances</option><option value='es'>Espanhol</option><option value='de'>Alemao</option><option value='it'>Italiano</option><option value='pt'>Portugues</option><option value='zh-CN'>Chines</option><option value='ar'>Arabe</option><option value='hi'>Hindi</option><option value='ru'>Russo</option><option value='ja'>Japones</option><option value='ko'>Coreano</option><option value='sw'>Swahili</option><option value='zu'>Zulu</option><option value='changana'>Changana</option><option value='ronga'>Ronga</option><option value='sena'>Sena</option><option value='ndau'>Ndau</option><option value='makhuwa'>Makhuwa</option><option value='shona'>Shona</option><option value='xhosa'>Xhosa</option><option value='sotho'>Sotho</option><option value='yo'>Ioruba</option><option value='ig'>Igbo</option><option value='ha'>Hausa</option><option value='am'>Amharico</option><option value='af'>Afrikaans</option></select>";
+h2+="<button onclick='traduzirTotal()' style='width:100%;background:#0F7A55;color:white;border:0;padding:14px;border-radius:12px;font-weight:bold'>Traduzir Agora</button>";
+h2+="<div id='resTrad'>Resultado aparece aqui...</div></div>";
+h2+="<div class='card'><b>30 FRASES QUE JA TEM PRONUNCIA COMPLETA</b>\nBom dia, Obrigado, Como estas, Tudo bem, Como vai, Estou bem, Estou com fome, Quanto custa, Agua, Dinheiro, Comida, Casa, Escola, Amigo, Familia, Mae, Pai, Hoje, Amanha, Sim, Nao, Amor, Por favor, Desculpa, Onde moras, Qual e o teu nome, Preciso de ajuda, Quero comprar, Deus te abencoe</div>";
+h2+="<div class='card'><b>DICIONARIO MOZ COM PRONUNCIA</b>\n\nBOM DIA - Changana: Minghani - le-se MIN-GA-NI | Sena: Mwadzuka bwanji | Ndau: Mwakadini | Makhuwa: Muhiu | Swahili: Habari za asubuhi | Zulu: Sawubona\n\nOBRIGADO - Changana: Ndza khensa - le-se NZA KEN-SA | Sena: Zikomo | Ndau: Ndatenda | Makhuwa: Koshukuru | Swahili: Asante | Zulu: Ngiyabonga\n\nTUDO BEM - Changana: Ku pfukile? - le-se KU PFU-KI-LE | Sena: Zili bwino? | Ndau: Zvakanaka? | Makhuwa: Kiiri saana? | Swahili: Mambo? | Zulu: Kunjani?</div>";
+c.innerHTML=h2;
+}
+window.scrollTo(0,200);
 }
 function traduzirTotal(){
-  var texto = document.getElementById('textoTrad').value.trim();
-  var para = document.getElementById('paraLingua').value;
-  var sel = document.getElementById('paraLingua');
-  var nomeLingua = sel.options[sel.selectedIndex].text;
-  var res = document.getElementById('resTrad');
-  if(!texto){ res.innerText="Escreve uma frase primeiro."; return; }
-  res.innerText="A traduzir... espera 2 segundos...";
-  var low = limpa(texto);
-  var moz = {
-    "bom dia": {changana:"Minghani - le-se: MIN-GA-NI", ronga:"Minghani - le-se: MIN-GA-NI", sena:"Mwadzuka bwanji - le-se: MUA-DZU-KA BUAN-JI", ndau:"Mwakadini - le-se: MUA-KA-DI-NI", makhuwa:"Muhiu - le-se: MU-HIU", shona:"Mhoro - le-se: MHO-RO", xhosa:"Molo - le-se: MO-LO", sotho:"Dumela - le-se: DU-ME-LA"},
-    "obrigado": {changana:"Ndza khensa - le-se: NZA KEN-SA", ronga:"Ndza khensa", sena:"Zikomo - le-se: ZI-KO-MO", ndau:"Ndatenda - le-se: NDA-TEN-DA", makhuwa:"Koshukuru - le-se: KO-SHU-KU-RU", shona:"Ndatenda", xhosa:"Enkosi - le-se: EN-KO-SI", sotho:"Ke a leboga - le-se: KE A LE-BO-GA"},
-    "como estas": {changana:"U njhani - le-se: U NJHA-NI", ronga:"U njhani", sena:"Muli bwanji - le-se: MU-LI BUAN-JI", ndau:"Muri sei - le-se: MU-RI SEI", makhuwa:"Muli sai - le-se: MU-LI SAI", shona:"Muri sei", xhosa:"Unjani - le-se: UN-JA-NI", sotho:"O kae - le-se: O KAE"},
-    "tudo bem": {changana:"Ku pfukile? - le-se: KU PFU-KI-LE", ronga:"Ku pfukile?", sena:"Zili bwino? - le-se: ZI-LI BUI-NO", ndau:"Zvakanaka? - le-se: ZVA-KA-NA-KA", makhuwa:"Kiiri saana? - le-se: KII-RI SA-A-NA", shona:"Zvakanaka?", xhosa:"Kunjani? - le-se: KUN-JA-NI", sotho:"O teng? - le-se: O TENG"},
-    "como vai": {changana:"U famba njhani? - le-se: U FAM-BA NJHA-NI", ronga:"U famba njhani?", sena:"Mukuyenda bwanji? - le-se: MU-KU-IEN-DA BUAN-JI", ndau:"Muri kufamba sei?", makhuwa:"Munrowa sai?", shona:"Muri kufamba sei?", xhosa:"Uhamba njani?", sotho:"O tsamaya jwang?"},
-    "estou bem": {changana:"Ndzi pfukile - le-se: NDZI PFU-KI-LE", ronga:"Ndzi pfukile", sena:"Ndili bwino", ndau:"Ndiri zvakanaka", makhuwa:"Kiiri saana", shona:"Ndiri zvakanaka", xhosa:"Ndiphilile", sotho:"Ke phetse"},
-    "estou com fome": {changana:"Ndzi na ndlala - le-se: NDZI NA NDLA-LA", ronga:"Ndzi na ndlala", sena:"Ndili ndi njala", ndau:"Ndine nzara", makhuwa:"Kiiri ni ettala", shona:"Ndine nzara", xhosa:"Ndilambile", sotho:"Ke lapile"},
-    "quanto custa": {changana:"Hi mali muni - le-se: HI MA-LI MU-NI", ronga:"Hi mali muni", sena:"Ndi ndalama zingati", ndau:"Imari yakadini", makhuwa:"Ntsurukhu", shona:"Imari yakadini", xhosa:"Malini - le-se: MA-LI-NI", sotho:"Ke bokae - le-se: KE BO-KAE"},
-    "agua": {changana:"Mati - le-se: MA-TI", ronga:"Mati", sena:"Madzi - le-se: MA-DZI", ndau:"Mvura", makhuwa:"Maasi", shona:"Mvura", xhosa:"Amanzi", sotho:"Metsi"},
-    "dinheiro": {changana:"Mali - le-se: MA-LI", ronga:"Mali", sena:"Ndalama", ndau:"Mari", makhuwa:"Etthu", shona:"Mari", xhosa:"Imali", sotho:"Tjhelete"},
-    "onde moras": {changana:"U tshama kwihi? - le-se: U TSHA-MA KUI-HI", ronga:"U tshama kwihi?", sena:"Umukhala kuti? - le-se: U-MU-KHA-LA KU-TI", ndau:"Unogara kupi?", makhuwa:"Munkhala vayi?", shona:"Unogara kupi?", xhosa:"Uhlala phi?", sotho:"O dula kae?"},
-    "qual e o teu nome": {changana:"Vito ra wena i mani? - le-se: VI-TO RA UE-NA", ronga:"Vito ra wena i mani?", sena:"Dzina lako ndani? - le-se: DZI-NA LA-KO NDA-NI", ndau:"Zita rako ndiani?", makhuwa:"Nsina nawo pani?", shona:"Zita rako ndiani?", xhosa:"Igama lakho ngubani?", sotho:"Lebitso la hao ke mang?"},
-    "preciso de ajuda": {changana:"Ndzi lava mpfuno - le-se: NDZI LA-VA MPFU-NO", ronga:"Ndzi lava mpfuno", sena:"Ndifuna thandizo", ndau:"Ndinoda rubatsiro", makhuwa:"Kinavara okhaviheriwa", shona:"Ndinoda rubatsiro", xhosa:"Ngidinga uncedo", sotho:"Ke hloka thuso"}
-  };
-  if(moz[low] && moz[low][para]){
-    res.innerText = "Original: " + texto + "\n\nTraduzido para " + nomeLingua + ": " + moz[low][para] + "\n\nTenta falar 3 vezes em voz alta.";
-    return;
-  }
-  if(para==='changana' || para==='ronga' || para==='sena' || para==='ndau' || para==='makhuwa' || para==='shona' || para==='xhosa' || para==='sotho'){
-    res.innerText = "Para " + nomeLingua + ", por agora tenho: Bom dia, Obrigado, Como estas, Tudo bem, Como vai, Estou bem, Estou com fome, Quanto custa, Agua, Dinheiro, Onde moras, Qual e o teu nome, Preciso de ajuda.\nEscreve uma dessas.";
-    return;
-  }
-  var pron = {
-    "como estas": { "zh-CN":"Ni hao ma? - le-se: NI RAU MA", "ja":"Genki desu ka? - le-se: GUEN-KI DES KA", "ar":"Kayfa haluk? - le-se: CAI-FA RA-LUKE", "ru":"Kak dela? - le-se: KAK DIE-LA", "hi":"Kaise ho? - le-se: CAI-SE RO", "ko":"Jal jinaeyo? - le-se: JAL JI-NA-IO" },
-    "tudo bem": { "zh-CN":"Hao ma? - le-se: RAU MA", "ja":"Daijoubu? - le-se: DAI-JOU-BU", "ar":"Kullu tamam? - le-se: KUL-LU TA-MAM", "ru":"Vse horosho? - le-se: FSE RO-RO-SHO", "hi":"Sab theek hai? - le-se: SAB TEEK RAI"
+var texto=document.getElementById('textoTrad').value.trim();
+var para=document.getElementById('paraLingua').value;
+var sel=document.getElementById('paraLingua');
+var nomeLingua=sel.options[sel.selectedIndex].text;
+var res=document.getElementById('resTrad');
+if(!texto){res.innerText="Escreve uma frase primeiro.";return;}
+res.innerText="A traduzir... espera 2 segundos...";
+var low=limpa(texto);
+var moz={
+"bom dia":{changana:"Minghani - le-se: MIN-GA-NI",ronga:"Minghani - le-se: MIN-GA-NI",sena:"Mwadzuka bwanji - le-se: MUA-DZU-KA BUAN-JI",ndau:"Mwakadini - le-se: MUA-KA-DI-NI",makhuwa:"Muhiu - le-se: MU-HIU",shona:"Mhoro - le-se: MHO-RO",xhosa:"Molo - le-se: MO-LO",sotho:"Dumela - le-se: DU-ME-LA"},
+"obrigado":{changana:"Ndza khensa - le-se: NZA KEN-SA",ronga:"Ndza khensa",sena:"Zikomo - le-se: ZI-KO-MO",ndau:"Ndatenda - le-se: NDA-TEN-DA",makhuwa:"Koshukuru - le-se: KO-SHU-KU-RU",shona:"Ndatenda",xhosa:"Enkosi - le-se: EN-KO-SI",sotho:"Ke a leboga - le-se: KE A LE-BO-GA"},
+"como estas":{changana:"U njhani - le-se: U NJHA-NI",ronga:"U njhani",sena:"Muli bwanji - le-se: MU-LI BUAN-JI",ndau:"Muri sei - le-se: MU-RI SEI",makhuwa:"Muli sai - le-se: MU-LI SAI",shona:"Muri sei",xhosa:"Unjani - le-se: UN-JA-NI",sotho:"O kae - le-se: O KAE"},
+"tudo bem":{changana:"Ku pfukile? - le-se: KU PFU-KI-LE",ronga:"Ku pfukile?",sena:"Zili bwino? - le-se: ZI-LI BUI-NO",ndau:"Zvakanaka? - le-se: ZVA-KA-NA-KA",makhuwa:"Kiiri saana? - le-se: KII-RI SA-A-NA",shona:"Zvakanaka?",xhosa:"Kunjani? - le-se: KUN-JA-NI",sotho:"O teng? - le-se: O TENG"},
+"como vai":{changana:"U famba njhani? - le-se: U FAM-BA NJHA-NI",ronga:"U famba njhani?",sena:"Mukuyenda bwanji?",ndau:"Muri kufamba sei?",makhuwa:"Munrowa sai?",shona:"Muri kufamba sei?",xhosa:"Uhamba njani?",sotho:"O tsamaya jwang?"},
+"estou bem":{changana:"Ndzi pfukile - le-se: NDZI PFU-KI-LE",ronga:"Ndzi pfukile",sena:"Ndili bwino",ndau:"Ndiri zvakanaka",makhuwa:"Kiiri saana",shona:"Ndiri zvakanaka",xhosa:"Ndiphilile",sotho:"Ke phetse"},
+"estou com fome":{changana:"Ndzi na ndlala - le-se: NDZI NA NDLA-LA",ronga:"Ndzi na ndlala",sena:"Ndili ndi njala",ndau:"Ndine nzara",makhuwa:"Kiiri ni ettala",shona:"Ndine nzara",xhosa:"Ndilambile",sotho:"Ke lapile"},
+"quanto custa":{changana:"Hi mali muni - le-se: HI MA-LI MU-NI",ronga:"Hi mali muni",sena:"Ndi ndalama zingati",ndau:"Imari yakadini",makhuwa:"Ntsurukhu",shona:"Imari yakadini",xhosa:"Malini - le-se: MA-LI-NI",sotho:"Ke bokae - le-se: KE BO-KAE"},
+"agua":{changana:"Mati - le-se: MA-TI",ronga:"Mati",sena:"Madzi - le-se: MA-DZI",ndau:"Mvura",makhuwa:"Maasi",shona:"Mvura",xhosa:"Amanzi",sotho:"Metsi"},
+"dinheiro":{changana:"Mali - le-se: MA-LI",ronga:"Mali",sena:"Ndalama",ndau:"Mari",makhuwa:"Etthu",shona:"Mari",xhosa:"Imali",sotho:"Tjhelete"},
+"onde moras":{changana:"U tshama kwihi? - le-se: U TSHA-MA KUI-HI",ronga:"U tshama kwihi?",sena:"Umukhala kuti?",ndau:"Unogara kupi?",makhuwa:"Munkhala vayi?",shona:"Unogara kupi?",xhosa:"Uhlala phi?",sotho:"O dula kae?"},
+"qual e o teu nome":{changana:"Vito ra wena i mani?",ronga:"Vito ra wena i mani?",sena:"Dzina lako ndani?",ndau:"Zita rako ndiani?",makhuwa:"Nsina nawo pani?",shona:"Zita rako ndiani?",xhosa:"Igama lakho ngubani?",sotho:"Lebitso la hao ke mang?"},
+"preciso de ajuda":{changana:"Ndzi lava mpfuno",ronga:"Ndzi lava mpfuno",sena:"Ndifuna thandizo",ndau:"Ndinoda rubatsiro",makhuwa:"Kinavara okhaviheriwa",shona:"Ndinoda rubatsiro",xhosa:"Ngidinga uncedo",sotho:"Ke hloka thuso"}
+};
+if(moz[low] && moz[low][para]){res.innerText="Original: "+texto+"\n\nTraduzido para "+nomeLingua+": "+moz[low][para]+"\n\nTenta falar 3 vezes em voz alta.";return;}
+if(para==='changana'||para==='ronga'||para==='sena'||para==='ndau'||para==='makhuwa'||para==='shona'||para==='xhosa'||para==='sotho'){res.innerText="Para "+nomeLingua+", por agora tenho: Bom dia, Obrigado, Como estas, Tudo bem, Como vai, Estou bem, Estou com fome, Quanto custa, Agua, Dinheiro, Onde moras, Qual e o teu nome, Preciso de ajuda.\nEscreve uma dessas.";return;}
+var base={"bom dia":"Good morning","obrigado":"Thank you","como estas":"How are you","tudo bem":"All good","como vai":"How is it going","estou bem":"I am fine","estou com fome":"I am hungry","quanto custa":"How much does it cost","agua":"Water","dinheiro":"Money","onde moras":"Where do you live","qual e o teu nome":"What is your name","preciso de ajuda":"I need help","bom dia2":""};
+if(base[low]){res.innerText="Original: "+texto+"\n\nTraduzido para "+nomeLingua+" (via Ingles): "+base[low]+"\n\nEsta e a base. Para pronuncia completa usa as linguas de Mocambique em cima.";return;}
+res.innerText="Escreve uma das frases que ja tenho: Bom dia, Obrigado, Como estas, Tudo bem, Como vai, Estou bem, Estou com fome, Quanto custa, Agua, Dinheiro, Onde moras, Qual e o teu nome, Preciso de ajuda.";
+}
+function abrirSettings(){document.getElementById('settingsBox').style.display='block';document.getElementById('adminBox').style.display='none';window.scrollTo(0,1000);}
+function abrirAdmin(){document.getElementById('adminBox').style.display='block';document.getElementById('settingsBox').style.display='none';window.scrollTo(0,1000);}
+function fecharTudo(){document.getElementById('settingsBox').style.display='none';document.getElementById('adminBox').style.display='none';}
+function toggleDark(){document.body.classList.toggle('dark');}
+function mudaLetra(g){document.body.style.fontSize=g?'18px':'16px';}
+function entrar(){var s=document.getElementById('senha').value;if(s===SENHA){document.getElementById('adminArea').style.display='block';document.getElementById('msgAdmin').innerText="Bem-vindo Dono!";}else{document.getElementById('msgAdmin').innerText="Senha errada.";}}
+function addIdeia(){
+var t=document.getElementById('novaTitulo').value.trim();
+var l=document.getElementById('novaLucro').value.trim();
+var p=document.getElementById('novaPassos').value.trim();
+var tel=document.getElementById('novaTel').value.trim();
+var tipo=document.getElementById('novaTipo').value;
+if(!t){document.getElementById('msgAdmin').innerText="Escreve o titulo.";return;}
+ideias.push({t:t,tipo:tipo,custo:"0MT",lucro:l||"A combinar",passos:p||"Sem passos",erro:"Sem erro.",tel:tel});
+document.getElementById('msgAdmin').innerText="Ideia adicionada! Vai para FAZER DINHEIRO.";
+renderIdeias();
+}
+function partilhar(){var txt="Ve este site MOZ AJUDA - Trabalhos para adolescentes de Mocambique: "+window.location.href;window.open("https://wa.me/?text="+encodeURIComponent(txt));}
+mostra('dinheiro');
+</script>
+</body>
+</html>
