@@ -1,584 +1,125 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PolyGlot Moçambique - Tradutor & Dicionário</title>
-    <!-- Google Fonts & FontAwesome -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <style>
-        :root {
-            --primary: #2563eb;
-            --primary-hover: #1d4ed8;
-            --bg-color: #f8fafc;
-            --card-bg: #ffffff;
-            --text-main: #1e293b;
-            --text-muted: #64748b;
-            --border-color: #cbd5e1;
-            --radius: 16px;
-            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
-        }
-
-        [data-theme="dark"] {
-            --primary: #3b82f6;
-            --primary-hover: #2563eb;
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --border-color: #334155;
-            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
-            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .app-container {
-            width: 100%;
-            max-width: 850px;
-            background: var(--card-bg);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border-color);
-            overflow: hidden;
-            margin-top: 10px;
-        }
-
-        /* Header & Navigation Tabs */
-        .app-header {
-            padding: 20px 24px;
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .app-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: var(--primary);
-        }
-
-        .nav-tabs {
-            display: flex;
-            gap: 8px;
-            background: var(--bg-color);
-            padding: 6px;
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-        }
-
-        .tab-btn {
-            background: transparent;
-            border: none;
-            padding: 8px 16px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: var(--text-muted);
-            cursor: pointer;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .tab-btn.active {
-            background: var(--primary);
-            color: #ffffff;
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
-        }
-
-        /* Main Content View Areas */
-        .tab-content {
-            display: none;
-            padding: 24px;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        /* Translator Styles */
-        .translator-grid {
-            display: grid;
-            grid-template-columns: 1fr 50px 1fr;
-            gap: 16px;
-            align-items: center;
-        }
-
-        @media(max-width: 768px) {
-            .translator-grid {
-                grid-template-columns: 1fr;
-            }
-            .swap-container {
-                display: flex;
-                justify-content: center;
-                transform: rotate(90deg);
-                margin: -10px 0;
-            }
-        }
-
-        .translation-card {
-            background: var(--bg-color);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        .card-header {
-            padding: 12px 16px;
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .card-header select {
-            background: transparent;
-            border: none;
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: var(--text-main);
-            cursor: pointer;
-            outline: none;
-        }
-
-        textarea {
-            width: 100%;
-            height: 150px;
-            background: transparent;
-            border: none;
-            padding: 16px;
-            font-size: 1rem;
-            color: var(--text-main);
-            resize: none;
-            outline: none;
-        }
-
-        .card-footer {
-            padding: 10px 16px;
-            border-top: 1px solid var(--border-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        .action-icon-btn {
-            background: transparent;
-            border: none;
-            color: var(--text-muted);
-            cursor: pointer;
-            font-size: 1rem;
-            padding: 4px;
-            border-radius: 4px;
-        }
-
-        .action-icon-btn:hover {
-            color: var(--primary);
-            background: rgba(37, 99, 235, 0.1);
-        }
-
-        .swap-btn {
-            background: var(--bg-color);
-            border: 1px solid var(--border-color);
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            color: var(--text-main);
-            margin: 0 auto;
-        }
-
-        .swap-btn:hover {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-        }
-
-        /* Pronunciation Section (Como se Lê) */
-        .phonetic-box {
-            margin-top: 20px;
-            background: rgba(37, 99, 235, 0.05);
-            border: 1px dashed var(--primary);
-            border-radius: 12px;
-            padding: 16px;
-        }
-
-        .phonetic-title {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--primary);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 6px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .phonetic-text {
-            font-size: 1.05rem;
-            font-style: italic;
-            color: var(--text-main);
-        }
-
-        .translate-action-bar {
-            margin-top: 20px;
-            display: flex;
-            justify-content: flex-end;
-        }
-
-        .primary-btn {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 12px 28px;
-            font-size: 1rem;
-            font-weight: 600;
-            border-radius: 10px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
-        }
-
-        .primary-btn:hover {
-            background: var(--primary-hover);
-        }
-
-        /* Dictionary Styles */
-        .dictionary-search {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .search-input {
-            flex: 1;
-            padding: 12px 16px;
-            border-radius: 10px;
-            border: 1px solid var(--border-color);
-            background: var(--bg-color);
-            color: var(--text-main);
-            font-size: 1rem;
-            outline: none;
-        }
-
-        .dictionary-results {
-            background: var(--bg-color);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 20px;
-            min-height: 200px;
-        }
-
-        .word-definition h3 {
-            font-size: 1.5rem;
-            color: var(--primary);
-            margin-bottom: 4px;
-        }
-
-        .word-definition .pos {
-            font-size: 0.85rem;
-            background: rgba(37, 99, 235, 0.1);
-            color: var(--primary);
-            padding: 2px 8px;
-            border-radius: 4px;
-            display: inline-block;
-            margin-bottom: 12px;
-        }
-
-        .word-definition p {
-            margin-bottom: 8px;
-            line-height: 1.5;
-        }
-
-        /* Settings Styles */
-        .settings-group {
-            margin-bottom: 24px;
-        }
-
-        .settings-group h3 {
-            font-size: 1rem;
-            margin-bottom: 12px;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .setting-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 14px 16px;
-            background: var(--bg-color);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            margin-bottom: 10px;
-        }
-
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 50px;
-            height: 26px;
-        }
-
-        .switch input { 
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-color: var(--border-color);
-            transition: .4s;
-            border-radius: 34px;
-        }
-
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 18px;
-            width: 18px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-
-        input:checked + .slider {
-            background-color: var(--primary);
-        }
-
-        input:checked + .slider:before {
-            transform: translateX(24px);
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PolyGlot Mocambique - Tradutor</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root{--primary:#2563eb;--bg:#f8fafc;--card:#fff;--text:#1e293b;--muted:#64748b;--border:#cbd5e1;--radius:16px}
+[data-theme="dark"]{--primary:#3b82f6;--bg:#0f172a;--card:#1e293b;--text:#f8fafc;--muted:#94a3b8;--border:#334155}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
+body{background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:20px}
+.app{width:100%;max-width:850px;background:var(--card);border-radius:var(--radius);border:1px solid var(--border);overflow:hidden;margin-top:10px}
+header{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.title{font-size:1.25rem;font-weight:700;color:var(--primary)}
+.tabs{display:flex;gap:8px;background:var(--bg);padding:6px;border-radius:12px;border:1px solid var(--border)}
+.tab-btn{background:transparent;border:0;padding:8px 14px;font-weight:500;color:var(--muted);cursor:pointer;border-radius:8px}
+.tab-btn.active{background:var(--primary);color:#fff}
+.tab{display:none;padding:24px}
+.tab.active{display:block}
+.grid{display:grid;grid-template-columns:1fr 50px 1fr;gap:16px;align-items:center}
+@media(max-width:768px){.grid{grid-template-columns:1fr}.swap{transform:rotate(90deg)}}
+.card{background:var(--bg);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.card-head{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+select{background:transparent;border:0;font-weight:600;color:var(--text);outline:none}
+textarea{width:100%;height:150px;background:transparent;border:0;padding:16px;font-size:1rem;color:var(--text);resize:none;outline:none}
+.foot{padding:10px 16px;border-top:1px solid var(--border);display:flex;justify-content:space-between;color:var(--muted);font-size:.85rem}
+.icon{background:transparent;border:0;color:var(--muted);cursor:pointer;font-size:1rem}
+.swap-btn{background:var(--bg);border:1px solid var(--border);width:44px;height:44px;border-radius:50%;cursor:pointer;margin:0 auto;display:flex;align-items:center;justify-content:center}
+.phon{margin-top:20px;background:rgba(37,99,235,.07);border:1px dashed var(--primary);border-radius:12px;padding:16px}
+.phon b{color:var(--primary);font-size:.85rem}
+.phon p{font-style:italic;margin-top:6px}
+.bar{margin-top:20px;display:flex;justify-content:flex-end}
+.btn{background:var(--primary);color:#fff;border:0;padding:12px 28px;font-weight:600;border-radius:10px;cursor:pointer}
+.search{display:flex;gap:10px;margin-bottom:20px}
+.search input{flex:1;padding:12px;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--text);outline:none}
+.result{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:20px;min-height:180px;line-height:1.6}
+.item{display:flex;justify-content:space-between;padding:14px;background:var(--bg);border:1px solid var(--border);border-radius:10px;margin-bottom:10px}
+.switch{position:relative;width:50px;height:26px;display:inline-block}
+.switch input{opacity:0;width:0;height:0}
+.slider{position:absolute;inset:0;background:var(--border);border-radius:34px}
+.slider:before{content:"";position:absolute;width:18px;height:18px;left:4px;bottom:4px;background:#fff;border-radius:50%;transition:.4s}
+input:checked+.slider{background:var(--primary)}
+input:checked+.slider:before{transform:translateX(24px)}
+</style>
 </head>
 <body data-theme="light">
-
-    <div class="app-container">
-        <!-- Cabeçalho e Abas -->
-        <header class="app-header">
-            <div class="app-title">
-                <i class="fa-solid fa-language"></i> PolyGlot MZ
-            </div>
-            <nav class="nav-tabs">
-                <button class="tab-btn active" onclick="switchTab('translator', this)">
-                    <i class="fa-solid fa-right-left"></i> Tradutor
-                </button>
-                <button class="tab-btn" onclick="switchTab('dictionary', this)">
-                    <i class="fa-solid fa-book"></i> Dicionário
-                </button>
-                <button class="tab-btn" onclick="switchTab('settings', this)">
-                    <i class="fa-solid fa-gear"></i> Ajustes
-                </button>
-            </nav>
-        </header>
-
-        <!-- ABA 1: TRADUTOR -->
-        <div id="translator" class="tab-content active">
-            <div class="translator-grid">
-                <!-- Caixa de Origem -->
-                <div class="translation-card">
-                    <div class="card-header">
-                        <select id="sourceLang">
-                            <option value="pt">Português</option>
-                            <option value="en">Inglês</option>
-                            <option value="es">Espanhol</option>
-                            <option value="fr">Francês</option>
-                            <option value="changana">Changana (Moçambique)</option>
-                            <option value="ronga">Ronga (Moçambique)</option>
-                            <option value="macua">Macua (Moçambique)</option>
-                            <option value="sena">Sena (Moçambique)</option>
-                        </select>
-                        <button class="action-icon-btn" onclick="clearText()"><i class="fa-solid fa-xmark"></i></button>
-                    </div>
-                    <textarea id="inputText" placeholder="Digite o texto aqui..."></textarea>
-                    <div class="card-footer">
-                        <span id="charCount">0 / 500</span>
-                        <button class="action-icon-btn" onclick="speakText('inputText', 'sourceLang')"><i class="fa-solid fa-volume-high"></i></button>
-                    </div>
-                </div>
-
-                <!-- Botão de Inverter -->
-                <div class="swap-container">
-                    <button class="swap-btn" onclick="swapLanguages()" title="Inverter Línguas">
-                        <i class="fa-solid fa-arrow-right-arrow-left"></i>
-                    </button>
-                </div>
-
-                <!-- Caixa de Destino -->
-                <div class="translation-card">
-                    <div class="card-header">
-                        <select id="targetLang">
-                            <option value="en">Inglês</option>
-                            <option value="pt">Português</option>
-                            <option value="changana">Changana (Moçambique)</option>
-                            <option value="ronga">Ronga (Moçambique)</option>
-                            <option value="macua">Macua (Moçambique)</option>
-                            <option value="sena">Sena (Moçambique)</option>
-                            <option value="es">Espanhol</option>
-                            <option value="fr">Francês</option>
-                            <option value="sw">Suaíli</option>
-                        </select>
-                        <button class="action-icon-btn" onclick="copyTranslation()"><i class="fa-solid fa-copy"></i></button>
-                    </div>
-                    <textarea id="outputText" readonly placeholder="Tradução aparecerá aqui..."></textarea>
-                    <div class="card-footer">
-                        <span>Automático</span>
-                        <button class="action-icon-btn" onclick="speakText('outputText', 'targetLang')"><i class="fa-solid fa-volume-high"></i></button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Guia de Pronúncia (Como se lê) -->
-            <div class="phonetic-box">
-                <div class="phonetic-title">
-                    <i class="fa-solid fa-circle-info"></i> Como se lê (Guia Fonético):
-                </div>
-                <div id="phoneticOutput" class="phonetic-text">
-                    A transcrição fonética ou guia de pronúncia aparecerá aqui para facilitar a leitura.
-                </div>
-            </div>
-
-            <div class="translate-action-bar">
-                <button class="primary-btn" onclick="performTranslation()">
-                    <i class="fa-solid fa-language"></i> Traduzir Agora
-                </button>
-            </div>
-        </div>
-
-        <!-- ABA 2: DICIONÁRIO -->
-        <div id="dictionary" class="tab-content">
-            <div class="dictionary-search">
-                <input type="text" id="dictSearchInput" class="search-input" placeholder="Pesquisar palavra (ex: Olha, Karingana, Mulato)...">
-                <button class="primary-btn" onclick="searchDictionary()"><i class="fa-solid fa-search"></i> Pesquisar</button>
-            </div>
-            <div class="dictionary-results" id="dictResults">
-                <p style="color: var(--text-muted); text-align: center; margin-top: 40px;">Digite uma palavra acima para ver o significado, definições em várias línguas e termos moçambicanos.</p>
-            </div>
-        </div>
-
-        <!-- ABA 3: CONFIGURAÇÕES -->
-        <div id="settings" class="tab-content">
-            <div class="settings-group">
-                <h3>Aparência</h3>
-                <div class="setting-item">
-                    <span>Modo Escuro (Dark Mode)</span>
-                    <label class="switch">
-                        <input type="checkbox" id="themeToggle" onchange="toggleTheme()">
-                        <span class="slider"></span>
-                    </label>
-                </div>
-            </div>
-            <div class="settings-group">
-                <h3>Voz e Áudio</h3>
-                <div class="setting-item">
-                    <span>Pronúncia Automática após Traduzir</span>
-                    <label class="switch">
-                        <input type="checkbox" id="autoAudioToggle">
-                        <span class="slider"></span>
-                    </label>
-                </div>
-            </div>
-            <div class="settings-group">
-                <h3>Sobre o Aplicativo</h3>
-                <div class="setting-item">
-                    <span>Versão do Aplicativo</span>
-                    <span style="color: var(--text-muted); font-weight: 600;">v2.4.0 (Edição Moçambique)</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Script de Funcionalidades do App -->
-    <script>
-        // Navegação por Abas
-        function switchTab(tabId, btnElement) {
-            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            
-            document.getElementById(tabId).classList.add('active');
-            btnElement.classList.add('active');
-        }
-
-        // Alternar Tema (Claro / Escuro)
-        function toggleTheme() {
-            const body = document.body;
-            const currentTheme = body.getAttribute('data-theme');
-            if (currentTheme === 'light') {
-                body.setAttribute('data-theme', 'dark');
-            } else {
-                body.setAttribute('data-theme', 'light');
-            }
-        }
-
-        // Lógica de Tradução Simulada com Dicionário de Línguas Nacionais Moçambicanas
-        const mockDatabase = {
-            "olá": {
-                en: { trans: "Hello", phonetic: "hé-lou" },
-                es: { trans: "Hola", phonetic: "ó-la" },
-                changana: { trans: "Katsavela / Minjhani", phonetic: "ca-tsa-vê-la" },
-                ronga: { trans: "N’wixo", phonetic: "n-wí-cho" },
-                macua: { trans: "Nihamo", phonetic: "ni-ha-mo" },
-                sena: { trans: "Mwauata", phonetic: "mwa-u-a-ta" }
-            },
-            "bom dia": {
-                en: { trans: "Good morning", phonetic: "gud mór-ning" },
-                changana: { trans: "Axueni / Kuseni namuntlha", phonetic: "a-chu-é-ni" },
-                ronga: { trans: "Muxinjeni", phonetic: "mu-chin-jê-ni" },
-                macua: { trans: "Mwaneene", phonetic: "mwa-nê-ne" }
-            },
-            "obrigado": {
-                en: { trans: "Thank you", phonetic: "théngk iu" },
-                changana: { trans: "Ndzi khensa", phonetic: "ndzi chên-sa" },
-                ronga: { trans: "Ndzi khensa", phonetic: "ndzi chên-sa" },
-                macua: { trans: "Karibu / Shukuru", phonetic: "ca-ri-bu" },
-                sena: { trans: "Ndosaka", phonetic: "ndo-sa-ka" }
-            },
-            "água": {
-                en: { trans: "Water", phonetic: "uó-ter" },
-                changana: { trans: "Mati", phonetic: "ma-ti" },
-                ronga: { trans: "Mati", phonetic: "ma-ti" },
-                macua: { trans: "Maasi", phonetic: "ma-a-si" },
-                sena: { trans: "Madzi", phonetic: "ma-dzi" }
-            }
-        };
-
-        function performTranslation() {
-            const text = document.getElementById('inputText').value.trim().toLowerCase();
-            const target = document.getElementById('targetLa
+<div class="app">
+<header>
+<div class="title"><i class="fa-solid fa-language"></i> PolyGlot MZ</div>
+<nav class="tabs">
+<button class="tab-btn active" onclick="switchTab('translator',this)">Tradutor</button>
+<button class="tab-btn" onclick="switchTab('dictionary',this)">Dicionario</button>
+<button class="tab-btn" onclick="switchTab('settings',this)">Ajustes</button>
+</nav>
+</header>
+<div id="translator" class="tab active">
+<div class="grid">
+<div class="card"><div class="card-head"><select id="sourceLang"><option value="pt">Portugues</option><option value="en">Ingles</option><option value="changana">Changana</option><option value="ronga">Ronga</option><option value="macua">Macua</option><option value="sena">Sena</option></select><button class="icon" onclick="clearText()"><i class="fa-solid fa-xmark"></i></button></div><textarea id="inputText" placeholder="Escreve aqui... ex: Bom dia" oninput="conta()"></textarea><div class="foot"><span id="charCount">0 / 500</span><button class="icon" onclick="speakText('inputText','sourceLang')"><i class="fa-solid fa-volume-high"></i></button></div></div>
+<div class="swap"><button class="swap-btn" onclick="swapLanguages()"><i class="fa-solid fa-arrow-right-arrow-left"></i></button></div>
+<div class="card"><div class="card-head"><select id="targetLang"><option value="en">Ingles</option><option value="pt">Portugues</option><option value="changana">Changana</option><option value="ronga">Ronga</option><option value="macua">Macua</option><option value="sena">Sena</option><option value="es">Espanhol</option><option value="fr">Frances</option><option value="sw">Swahili</option></select><button class="icon" onclick="copyTranslation()"><i class="fa-solid fa-copy"></i></button></div><textarea id="outputText" readonly placeholder="Traducao aparece aqui..."></textarea><div class="foot"><span>Automatico</span><button class="icon" onclick="speakText('outputText','targetLang')"><i class="fa-solid fa-volume-high"></i></button></div></div>
+</div>
+<div class="phon"><b>COMO SE LE:</b><p id="phoneticOutput">A pronuncia aparece aqui.</p></div>
+<div class="bar"><button class="btn" onclick="performTranslation()">Traduzir Agora</button></div>
+</div>
+<div id="dictionary" class="tab">
+<div class="search"><input id="dictSearchInput" placeholder="Pesquisa: Ola, Bom dia, Obrigado, Agua..."><button class="btn" onclick="searchDictionary()">Pesquisar</button></div>
+<div class="result" id="dictResults"><p style="text-align:center;color:var(--muted)">Escreve uma palavra em cima para ver o significado em varias linguas.</p></div>
+</div>
+<div id="settings" class="tab">
+<div class="item"><span>Modo Escuro</span><label class="switch"><input type="checkbox" onchange="toggleTheme()"><span class="slider"></span></label></div>
+<div class="item"><span>Versao</span><span>v2.4.0 Edicao Mocambique</span></div>
+<div class="item"><span>Feito para Mocambique</span><span>Changana • Ronga • Macua • Sena</span></div>
+</div>
+</div><script>
+function switchTab(id,btn){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));document.getElementById(id).classList.add('active');btn.classList.add('active');}
+function toggleTheme(){var b=document.body;b.setAttribute('data-theme',b.getAttribute('data-theme')==='light'?'dark':'light');}
+function conta(){document.getElementById('charCount').innerText=document.getElementById('inputText').value.length+' / 500';}
+function clearText(){document.getElementById('inputText').value='';document.getElementById('outputText').value='';document.getElementById('phoneticOutput').innerText='A pronuncia aparece aqui.';conta();}
+function swapLanguages(){var s=document.getElementById('sourceLang');var t=document.getElementById('targetLang');var tmp=s.value;s.value=t.value;t.value=tmp;var a=document.getElementById('inputText').value;document.getElementById('inputText').value=document.getElementById('outputText').value;document.getElementById('outputText').value=a;}
+function copyTranslation(){var o=document.getElementById('outputText');o.select();document.execCommand('copy');alert('Copiado!');}
+function speakText(id,langId){var txt=document.getElementById(id).value;if(!txt)return;var u=new SpeechSynthesisUtterance(txt);u.lang='pt-PT';speechSynthesis.speak(u);}
+var DB={
+"ola":{pt:"Ola",en:"Hello - HE-LOU",es:"Hola",fr:"Bonjour",changana:"Minghani - MIN-GA-NI",ronga:"Minghani - MIN-GA-NI",macua:"Muhiu - MU-HIU",sena:"Mwadzuka bwanji",sw:"Jambo"},
+"bom dia":{pt:"Bom dia",en:"Good morning - GUD MOR-NING",es:"Buenos dias",fr:"Bonjour",changana:"Minghani - MIN-GA-NI",ronga:"Minghani",macua:"Muhiu",sena:"Mwadzuka bwanji - MUA-DZU-KA",sw:"Habari za asubuhi"},
+"obrigado":{pt:"Obrigado",en:"Thank you - TENK IU",es:"Gracias",fr:"Merci",changana:"Ndza khensa - NZA KEN-SA",ronga:"Ndza khensa",macua:"Koshukuru - KO-SHU-KU-RU",sena:"Zikomo - ZI-KO-MO",sw:"Asante"},
+"agua":{pt:"Agua",en:"Water - WO-TER",es:"Agua",fr:"Eau",changana:"Mati - MA-TI",ronga:"Mati",macua:"Maasi - MA-A-SI",sena:"Madzi - MA-DZI",sw:"Maji"},
+"como estas":{pt:"Como estas?",en:"How are you? - RAU AR IU",es:"Como estas?",fr:"Comment vas-tu?",changana:"U njhani - U NJHA-NI",ronga:"U njhani",macua:"Muli sai - MU-LI SAI",sena:"Muli bwanji",sw:"Habari yako"},
+"tudo bem":{pt:"Tudo bem?",en:"All good? - OL GUD",es:"Todo bien?",fr:"Ca va?",changana:"Ku pfukile? - KU PFU-KI-LE",ronga:"Ku pfukile?",macua:"Kiiri saana?",sena:"Zili bwino?",sw:"Mambo?"},
+"onde moras":{pt:"Onde moras?",en:"Where do you live?",es:"Donde vives?",fr:"Ou habites-tu?",changana:"U tshama kwihi? - U TSHA-MA KUI-HI",ronga:"U tshama kwihi?",macua:"Munkhala vayi?",sena:"Umukhala kuti?",sw:"Unaishi wapi?"},
+"estou com fome":{pt:"Estou com fome",en:"I am hungry",es:"Tengo hambre",fr:"J'ai faim",changana:"Ndzi na ndlala - NDZI NA NDLA-LA",ronga:"Ndzi na ndlala",macua:"Kiiri ni ettala",sena:"Ndili ndi njala",sw:"Nina njaa"},
+"quanto custa":{pt:"Quanto custa?",en:"How much does it cost?",es:"Cuanto cuesta?",fr:"Combien ca coute?",changana:"Hi mali muni - HI MA-LI MU-NI",ronga:"Hi mali muni",macua:"Ntsurukhu",sena:"Ndi ndalama zingati",sw:"Bei gani?"},
+"dinheiro":{pt:"Dinheiro",en:"Money - MA-NI",es:"Dinero",fr:"Argent",changana:"Mali - MA-LI",ronga:"Mali",macua:"Etthu",sena:"Ndalama",sw:"Pesa"},
+"preciso de ajuda":{pt:"Preciso de ajuda",en:"I need help",es:"Necesito ayuda",fr:"J'ai besoin d'aide",changana:"Ndzi lava mpfuno",ronga:"Ndzi lava mpfuno",macua:"Kinavara okhaviheriwa",sena:"Ndifuna thandizo",sw:"Ninahitaji msaada"},
+"qual e o teu nome":{pt:"Qual e o teu nome?",en:"What is your name?",es:"Como te llamas?",fr:"Comment tu t'appelles?",changana:"Vito ra wena i mani?",ronga:"Vito ra wena i mani?",macua:"Nsina nawo pani?",sena:"Dzina lako ndani?",sw:"Jina lako ni nani?"}
+};
+function limpa(s){s=s.toLowerCase().trim();s=s.normalize("NFD").replace(/[\u0300-\u036f]/g,"");s=s.replace(/[?!.,]/g,"");return s;}
+function performTranslation(){
+var txt=document.getElementById('inputText').value.trim();
+var target=document.getElementById('targetLang').value;
+if(!txt){alert('Escreve uma frase primeiro.');return;}
+var key=limpa(txt);
+if(DB[key] && DB[key][target]){
+document.getElementById('outputText').value=DB[key][target];
+document.getElementById('phoneticOutput').innerText=DB[key][target];
+}else{
+document.getElementById('outputText').value="Para ja tenho: Ola, Bom dia, Obrigado, Agua, Como estas, Tudo bem, Onde moras, Estou com fome, Quanto custa, Dinheiro, Preciso de ajuda, Qual e o teu nome.\nEscreve uma dessas.";
+document.getElementById('phoneticOutput').innerText="Tenta uma das frases da lista.";
+}
+}
+function searchDictionary(){
+var q=limpa(document.getElementById('dictSearchInput').value);
+var r=document.getElementById('dictResults');
+if(!q){r.innerHTML="Escreve uma palavra.";return;}
+if(DB[q]){
+var d=DB[q];
+r.innerHTML="<h3 style='color:var(--primary)'>"+document.getElementById('dictSearchInput').value+"</h3><p><b>Portugues:</b> "+d.pt+"</p><p><b>Ingles:</b> "+d.en+"</p><p><b>Changana:</b> "+d.changana+"</p><p><b>Ronga:</b> "+d.ronga+"</p><p><b>Macua:</b> "+d.macua+"</p><p><b>Sena:</b> "+d.sena+"</p><p><b>Swahili:</b> "+(d.sw||"-")+"</p>";
+}else{
+r.innerHTML="Nao encontrei. Tenta: Ola, Bom dia, Obrigado, Agua, Como estas, Tudo bem, Onde moras, Dinheiro.";
+}
+}
+</script>
+</body>
+</html>
