@@ -3,222 +3,85 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PolyGlot Mocambique - Tradutor Inteligente</title>
+<title>GlobalMarket MZ - Compra e Venda</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-:root{--primary:#2563eb;--bg:#f8fafc;--card:#fff;--text:#1e293b;--muted:#64748b;--border:#cbd5e1;--radius:16px}
-[data-theme="dark"]{--primary:#3b82f6;--bg:#0f172a;--card:#1e293b;--text:#f8fafc;--muted:#94a3b8;--border:#334155}
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
-body{background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:20px}
-.app{width:100%;max-width:850px;background:var(--card);border-radius:var(--radius);border:1px solid var(--border);overflow:hidden;margin-top:10px}
-header{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
-.title{font-size:1.25rem;font-weight:700;color:var(--primary)}
-.tabs{display:flex;gap:8px;background:var(--bg);padding:6px;border-radius:12px;border:1px solid var(--border)}
-.tab-btn{background:transparent;border:0;padding:8px 14px;font-weight:500;color:var(--muted);cursor:pointer;border-radius:8px}
-.tab-btn.active{background:var(--primary);color:#fff}
-.tab{display:none;padding:24px}
-.tab.active{display:block}
-.grid{display:grid;grid-template-columns:1fr 50px 1fr;gap:16px;align-items:center}
-@media(max-width:768px){.grid{grid-template-columns:1fr}.swap{transform:rotate(90deg)}}
-.card{background:var(--bg);border:1px solid var(--border);border-radius:12px;overflow:hidden}
-.card-head{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
-select{background:transparent;border:0;font-weight:600;color:var(--text);outline:none}
-textarea{width:100%;height:150px;background:transparent;border:0;padding:16px;font-size:1rem;color:var(--text);resize:none;outline:none}
-.foot{padding:10px 16px;border-top:1px solid var(--border);display:flex;justify-content:space-between;color:var(--muted);font-size:.85rem}
-.icon{background:transparent;border:0;color:var(--muted);cursor:pointer;font-size:1rem}
-.swap-btn{background:var(--bg);border:1px solid var(--border);width:44px;height:44px;border-radius:50%;cursor:pointer;margin:0 auto;display:flex;align-items:center;justify-content:center}
-.phon{margin-top:20px;background:rgba(37,99,235,.07);border:1px dashed var(--primary);border-radius:12px;padding:16px}
-.phon b{color:var(--primary);font-size:.85rem}
-.phon p{font-style:italic;margin-top:6px}
-.bar{margin-top:20px;display:flex;justify-content:flex-end}
-.btn{background:var(--primary);color:#fff;border:0;padding:12px 28px;font-weight:600;border-radius:10px;cursor:pointer;transition:opacity .2s}
-.btn:hover{opacity:0.9}
-.search{display:flex;gap:10px;margin-bottom:20px}
-.search input{flex:1;padding:12px;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--text);outline:none}
-.result{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:20px;min-height:180px;line-height:1.6}
-.item{display:flex;justify-content:space-between;align-items:center;padding:14px;background:var(--bg);border:1px solid var(--border);border-radius:10px;margin-bottom:10px}
-.switch{position:relative;width:50px;height:26px;display:inline-block}
-.switch input{opacity:0;width:0;height:0}
-.slider{position:absolute;inset:0;background:var(--border);border-radius:34px}
-.slider:before{content:"";position:absolute;width:18px;height:18px;left:4px;bottom:4px;background:#fff;border-radius:50%;transition:.4s}
-input:checked+.slider{background:var(--primary)}
-input:checked+.slider:before{transform:translateX(24px)}
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',sans-serif}
+body{background:#eaeded;color:#333}
+header{background:#131921;color:#fff;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100}
+.logo{font-size:20px;font-weight:700;color:#FF9900}
+.user{display:flex;align-items:center;gap:8px;font-size:13px}
+.user img{width:32px;height:32px;border-radius:50%;border:2px solid #FF9900}
+.tabs{background:#232f3e;display:flex;gap:5px;padding:0 12px;overflow-x:auto}
+.tab-btn{background:none;border:0;color:#fff;padding:12px 14px;cursor:pointer;font-weight:500;font-size:13px;white-space:nowrap;border-bottom:3px solid transparent}
+.tab-btn.active{color:#FF9900;border-bottom-color:#FF9900}
+main{max-width:1100px;margin:20px auto;padding:0 14px}
+.tab-content{display:none}
+.tab-content.active{display:block}
+h2{font-size:20px;margin-bottom:15px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+.card{background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.08);display:flex;flex-direction:column}
+.card img{width:100%;height:180px;object-fit:cover;background:#eee}
+.body{padding:14px;flex:1}
+.body b{font-size:15px}
+.price{font-size:18px;font-weight:700;color:#b12704;margin:6px 0}
+.desc{font-size:13px;color:#666;line-height:1.4}
+.actions{padding:12px;border-top:1px solid #eee;display:flex;gap:8px}
+.btn{background:#FF9900;border:0;padding:10px;border-radius:6px;font-weight:600;cursor:pointer;flex:1}
+.btn2{background:#fff;border:1px solid #ccc;padding:10px;border-radius:6px;cursor:pointer;flex:1}
+.form{background:#fff;padding:22px;border-radius:10px;max-width:600px;margin:0 auto}
+.form label{display:block;margin:12px 0 5px;font-weight:600;font-size:14px}
+.form input,.form textarea,.form select{width:100%;padding:11px;border:1px solid #cbd5e0;border-radius:6px;font-size:14px}
+.box{border:2px dashed #cbd5e0;padding:12px;border-radius:6px;text-align:center;background:#f7fafc}
+#prev{width:100%;max-height:220px;object-fit:cover;border-radius:6px;display:none;margin-top:10px}
+.cartbox{background:#fff;padding:18px;border-radius:10px}
+.cartItem{display:flex;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid #eee}
+.cartItem img{width:60px;height:60px;object-fit:cover;border-radius:6px}
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#131921;color:#fff;padding:12px 20px;border-radius:8px;display:none;z-index:999}
+#login{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;justify-content:center;align-items:center;z-index:1000;padding:16px}
+.loginCard{background:#fff;padding:28px;border-radius:12px;text-align:center;max-width:380px;width:100%}
 </style>
 </head>
-<body data-theme="light">
-<div class="app">
-<header>
-<div class="title"><i class="fa-solid fa-language"></i> PolyGlot MZ</div>
+<body>
+<div id="toast">Feito!</div>
+<div id="login"><div class="loginCard"><h2>🛍️ GlobalMarket MZ</h2><p style="color:#666;font-size:14px;margin:10px 0 20px">Entra para comprar e vender em Mocambique.</p><button class="btn" style="width:100%;padding:12px" onclick="entrar()">Entrar com Google</button><br><br><button class="btn2" style="width:100%" onclick="fecharLogin()">Entrar como Convidado</button></div></div>
+<header><div class="logo"><i class="fa-solid fa-bag-shopping"></i> GlobalMarket MZ</div><div class="user"><span id="nomeUser">Convidado</span><img id="avatarUser" src="https://i.pravatar.cc/100"><button onclick="abrirLogin()" style="background:#232f3e;color:#fff;border:1px solid #555;padding:6px 10px;border-radius:6px;cursor:pointer">Entrar</button></div></header>
 <nav class="tabs">
-<button class="tab-btn active" onclick="switchTab('translator',this)">Tradutor</button>
-<button class="tab-btn" onclick="switchTab('dictionary',this)">Dicionário</button>
-<button class="tab-btn" onclick="switchTab('settings',this)">Ajustes</button>
+<button class="tab-btn active" onclick="muda('vitrine',this)">Vitrine</button>
+<button class="tab-btn" onclick="muda('vender',this)">+ Vender Item</button>
+<button class="tab-btn" onclick="muda('carrinho',this)">Carrinho (<span id="cartCount">0</span>)</button>
+<button class="tab-btn" onclick="muda('definicoes',this)">Definicoes</button>
 </nav>
-</header>
-<div id="translator" class="tab active">
-<div class="grid">
-<div class="card">
-<div class="card-head">
-<select id="sourceLang">
-<option value="pt">Português</option>
-<option value="en">Inglês</option>
-<option value="es">Espanhol</option>
-<option value="fr">Francês</option>
-<option value="sw">Swahili</option>
-<option value="ts">Changana</option>
-<option value="rwn">Ronga</option>
-<option value="vmw">Macua</option>
-<option value="seh">Sena</option>
-</select>
-<button class="icon" onclick="clearText()"><i class="fa-solid fa-xmark"></i></button>
-</div>
-<textarea id="inputText" placeholder="Escreve aqui... ex: Bom dia / How are you" oninput="conta()"></textarea>
-<div class="foot"><span id="charCount">0 / 500</span><button class="icon" onclick="speakText('inputText','sourceLang')"><i class="fa-solid fa-volume-high"></i></button></div>
-</div>
-<div class="swap"><button class="swap-btn" onclick="swapLanguages()"><i class="fa-solid fa-arrow-right-arrow-left"></i></button></div>
-<div class="card">
-<div class="card-head">
-<select id="targetLang">
-<option value="en">Inglês</option>
-<option value="pt">Português</option>
-<option value="es">Espanhol</option>
-<option value="fr">Francês</option>
-<option value="sw">Swahili</option>
-<option value="ts">Changana</option>
-<option value="rwn">Ronga</option>
-<option value="vmw">Macua</option>
-<option value="seh">Sena</option>
-</select>
-<button class="icon" onclick="copyTranslation()"><i class="fa-solid fa-copy"></i></button>
-</div>
-<textarea id="outputText" readonly placeholder="Tradução aparece aqui..."></textarea>
-<div class="foot"><span id="translationStatus">Automático</span><button class="icon" onclick="speakText('outputText','targetLang')"><i class="fa-solid fa-volume-high"></i></button></div>
-</div>
-</div>
-<div class="phon"><b>COMO SE LÊ / NOTAS:</b><p id="phoneticOutput">A pronúncia ou contexto aparece aqui.</p></div>
-<div class="bar"><button class="btn" id="translateBtn" onclick="performTranslation()">Traduzir Agora</button></div>
-</div>
-<div id="dictionary" class="tab">
-<div class="search">
-<input id="dictSearchInput" placeholder="Pesquisa rápida: Olá, Obrigado, Água..." onkeypress="if(event.key==='Enter') searchDictionary()">
-<button class="btn" onclick="searchDictionary()">Pesquisar</button>
-</div>
-<div class="result" id="dictResults"><p style="text-align:center;color:var(--muted)">Escreve uma palavra em cima para ver o significado em várias línguas.</p></div>
-</div>
-<div id="settings" class="tab">
-<div class="item"><span>Modo Escuro</span><label class="switch"><input type="checkbox" onchange="toggleTheme()"><span class="slider"></span></label></div>
-<div class="item"><span>Versão</span><span>v2.5.0 Edição Moçambique (Com IA/API)</span></div>
-<div class="item"><span>Feito para Moçambique</span><span>Changana • Ronga • Macua • Sena</span></div>
-</div>
-</div>
-<script>
-function switchTab(id,btn){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));document.getElementById(id).classList.add('active');btn.classList.add('active');}
-function toggleTheme(){var b=document.body;b.setAttribute('data-theme',b.getAttribute('data-theme')==='light'?'dark':'light');}
-function conta(){var len=document.getElementById('inputText').value.length;document.getElementById('charCount').innerText=len+' / 500';}
-function clearText(){document.getElementById('inputText').value='';document.getElementById('outputText').value='';document.getElementById('phoneticOutput').innerText='A pronúncia ou contexto aparece aqui.';conta();}
-function swapLanguages(){var s=document.getElementById('sourceLang');var t=document.getElementById('targetLang');var tmp=s.value;s.value=t.value;t.value=tmp;var a=document.getElementById('inputText').value;document.getElementById('inputText').value=document.getElementById('outputText').value;document.getElementById('outputText').value=a;conta();}
-function copyTranslation(){var o=document.getElementById('outputText');if(!o.value)return;navigator.clipboard.writeText(o.value);alert('Copiado para a área de transferência!');}
-function speakText(id,langIdSelector){var txt=document.getElementById(id).value;if(!txt)return;var langCode=document.getElementById(langIdSelector).value;var u=new SpeechSynthesisUtterance(txt);// Mapeia códigos simplificados para locais aceites pelo browser
-if(langCode==='ts'||langCode==='rwn'||langCode==='vmw'||langCode==='seh'){u.lang='pt-MZ';}else{u.lang=langCode;}speechSynthesis.speak(u);}
-
-// Base de dados local otimizada para termos locais moçambicanos comuns
-var DB={
-"ola":{pt:"Olá",en:"Hello",es:"Hola",fr:"Bonjour",ts:"Minghani",rwn:"Minghani",vmw:"Muhiu",seh:"Mwadzuka bwanji",sw:"Jambo"},
-"bom dia":{pt:"Bom dia",en:"Good morning",es:"Buenos días",fr:"Bonjour",ts:"Minghani",rwn:"Minghani",vmw:"Muhiu",seh:"Mwadzuka bwanji",sw:"Habari za asubuhi"},
-"obrigado":{pt:"Obrigado",en:"Thank you",es:"Gracias",fr:"Merci",ts:"Ndza khensa",rwn:"Ndza khensa",vmw:"Koshukuru",seh:"Zikomo",sw:"Asante"},
-"agua":{pt:"Água",en:"Water",es:"Agua",fr:"Eau",ts:"Mati",rwn:"Mati",vmw:"Maasi",seh:"Madzi",sw:"Maji"},
-"como estas":{pt:"Como estás?",en:"How are you?",es:"¿Cómo estás?",fr:"Comment vas-tu?",ts:"U njhani?",rwn:"U njhani?",vmw:"Muli sai?",seh:"Muli bwanji?",sw:"Habari yako"},
-"tudo bem":{pt:"Tudo bem?",en:"All good?",es:"¿Todo bien?",fr:"Ça va?",ts:"Ku pfukile?",rwn:"Ku pfukile?",vmw:"Kiiri saana?",seh:"Zili bwino?",sw:"Mambo?"},
-"dinheiro":{pt:"Dinheiro",en:"Money",es:"Dinero",fr:"Argent",ts:"Mali",rwn:"Mali",vmw:"Etthu",seh:"Ndalama",sw:"Pesa"}
-};
-
-function limpa(s){return s.toLowerCase().trim().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[?!.,]/g,"");}
-
-async function performTranslation(){
-var txt=document.getElementById('inputText').value.trim();
-var source=document.getElementById('sourceLang').value;
-var target=document.getElementById('targetLang').value;
-var outBox=document.getElementById('outputText');
-var phonBox=document.getElementById('phoneticOutput');
-var statusSpan=document.getElementById('translationStatus');
-
-if(!txt){alert('Escreve uma frase primeiro.');return;}
-
-// Verifica se existe na base local primeiro (ex: termos locais específicos de Moçambique)
-var key=limpa(txt);
-if(DB[key] && DB[key][target]){
-outBox.value=DB[key][target];
-phonBox.innerText="Tradução baseada no repositório local de línguas moçambicanas.";
-statusSpan.innerText="Local";
-return;
-}
-
-// Se não estiver na base local, utiliza a API web gratuita (MyMemory) para qualquer palavra do mundo
-statusSpan.innerText="A traduzir...";
-outBox.value="A processar tradução...";
-
-try {
-var url=`https://api.mymemory.translated.net/get?q=${encodeURIComponent(txt)}&langpair=${source}|${target}`;
-var response=await fetch(url);
-var data=await response.json();
-
-if(data && data.responseData){
-outBox.value=data.responseData.translatedText;
-phonBox.innerText="Tradução automática online concluída com sucesso.";
-statusSpan.innerText="Online (API)";
-} else {
-outBox.value="Erro ao traduzir. Tenta novamente.";
-statusSpan.innerText="Erro";
-}
-} catch(e) {
-outBox.value="Erro de ligação à rede.";
-statusSpan.innerText="Offline";
-phonBox.innerText="Verifica a tua ligação à internet para traduções automáticas.";
-}
-}
-
-async function searchDictionary(){
-var rawQ=document.getElementById('dictSearchInput').value;
-var q=limpa(rawQ);
-var r=document.getElementById('dictResults');
-if(!q){r.innerHTML="Escreve uma palavra para pesquisar.";return;}
-
-r.innerHTML="<p style='text-align:center;color:var(--muted)'>A pesquisar...</p>";
-
-// Verifica se está na BD local
-if(DB[q]){
-var d=DB[q];
-r.innerHTML=`<h3 style='color:var(--primary); margin-bottom:10px;'>${rawQ}</h3>`+
-`<p><b>Português:</b> ${d.pt}</p>`+
-`<p><b>Inglês:</b> ${d.en}</p>`+
-`<p><b>Changana:</b> ${d.ts}</p>`+
-`<p><b>Ronga:</b> ${d.rwn}</p>`+
-`<p><b>Macua:</b> ${d.vmw}</p>`+
-`<p><b>Sena:</b> ${d.seh}</p>`+
-`<p><b>Swahili:</b> ${d.sw}</p>`;
-return;
-}
-
-// Caso contrário, busca traduções automáticas online para as principais línguas
-try {
-let langs = ['en', 'es', 'fr', 'sw'];
-let resultsHTML = `<h3 style='color:var(--primary); margin-bottom:10px;'>Termo: ${rawQ}</h3>`;
-
-for(let lang of langs) {
-let res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(rawQ)}&langpair=pt|${lang}`);
-let json = await res.json();
-let translated = (json && json.responseData) ? json.responseData.translatedText : "---";
-resultsHTML += `<p><b>${lang.toUpperCase()}:</b> ${translated}</p>`;
-}
-
-resultsHTML += `<p style='margin-top:10px;font-size:0.85rem;color:var(--muted);'>* Nota: Línguas locais de Moçambique (Changana, Ronga, Macua, Sena) requerem consulta manual ou dicionário dedicado devido à escassez de dados abertos na web.</p>`;
-r.innerHTML = resultsHTML;
-
-} catch(e) {
-r.innerHTML="Não foi possível estabelecer ligação para traduzir o termo.";
-}
-}
+<main>
+<div id="vitrine" class="tab-content active"><h2>Produtos em Destaque - Mocambique</h2><div class="grid" id="grid"></div></div>
+<div id="vender" class="tab-content"><div class="form"><h2>Cadastrar Novo Item</h2><label>Nome do Produto</label><input id="pNome" placeholder="Ex: Tenis, Telefone, Camera"><label>Preco em MZN</label><input id="pPreco" type="number" placeholder="Ex: 1500"><label>Descricao</label><textarea id="pDesc" rows="3" placeholder="Estado, marca, entrega em Maputo..."></textarea><label>Foto do Produto</label><div class="box"><input type="file" accept="image/*" onchange="preview(event)"><img id="prev"></div><br><button class="btn" style="width:100%;padding:13px" onclick="addProd()">Publicar Produto</button></div></div>
+<div id="carrinho" class="tab-content"><h2>Seu Carrinho</h2><div class="cartbox" id="cartBox"><p style="color:#666">Carrinho vazio.</p></div><br><button class="btn" style="width:100%;padding:13px" onclick="finalizar()">Finalizar Compra no WhatsApp</button></div>
+<div id="definicoes" class="tab-content"><div class="form"><h2>Definicoes</h2><label>Nome da Tua Loja</label><input id="lojaNome" value="Minha Loja Global"><label>Moeda</label><select id="moeda"><option>MZN - Meticais</option><option>USD - Dolar</option><option>EUR - Euro</option></select><label>Teu WhatsApp para receber pedidos (ex: 258840000000)</label><input id="meuZap" placeholder="25884..."><br><br><button class="btn" style="width:100%" onclick="salvar()">Salvar</button></div></div>
+</main><script>
+let foto="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=500&q=80";
+let produtos=[
+{id:1,nome:"Smartwatch Deportivo Pro",preco:2800,desc:"Relogio inteligente a prova dagua, monitor cardiaco. Entrega em Maputo.",img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=500&q=80",vendedor:"Loja Maputo"},
+{id:2,nome:"Fone Bluetooth Bass Max",preco:1500,desc:"Som estereo, cancelamento de ruido. Novo.",img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=500&q=80",vendedor:"Loja Beira"},
+{id:3,nome:"Tenis Nike Air Importado",preco:3500,desc:"Tamanho 40-44. Original. Stock limitado.",img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=500&q=80",vendedor:"Loja Nampula"},
+{id:4,nome:"Telefone Samsung A15",preco:12500,desc:"128GB, dual SIM, caixa selada com garantia.",img:"https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=500&q=80",vendedor:"Loja Maputo"}
+];
+let carrinho=[];
+function toast(m){let t=document.getElementById('toast');t.innerText=m;t.style.display='block';setTimeout(()=>t.style.display='none',2500);}
+function muda(id,btn){document.querySelectorAll('.tab-content').forEach(e=>e.classList.remove('active'));document.querySelectorAll('.tab-btn').forEach(e=>e.classList.remove('active'));document.getElementById(id).classList.add('active');btn.classList.add('active');}
+function abrirLogin(){document.getElementById('login').style.display='flex';}
+function fecharLogin(){document.getElementById('login').style.display='none';}
+function entrar(){document.getElementById('nomeUser').innerText='Utilizador Google';document.getElementById('avatarUser').src='https://i.pravatar.cc/100?img=12';fecharLogin();toast('Login feito! Bem-vindo!');}
+function preview(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=function(x){foto=x.target.result;let p=document.getElementById('prev');p.src=foto;p.style.display='block';};r.readAsDataURL(f);}
+function mostra(){let g=document.getElementById('grid');g.innerHTML='';produtos.forEach(p=>{g.innerHTML+=`<div class="card"><img src="${p.img}"><div class="body"><b>${p.nome}</b><div class="price">${p.preco} MZN</div><div class="desc">${p.desc}<br><small>Vendedor: ${p.vendedor}</small></div></div><div class="actions"><button class="btn" onclick="addCarrinho(${p.id})">+ Carrinho</button><button class="btn2" onclick="contactar('${p.nome}')">Contactar</button></div></div>`;});}
+function addCarrinho(id){let p=produtos.find(x=>x.id===id);carrinho.push(p);document.getElementById('cartCount').innerText=carrinho.length;mostraCarrinho();toast('Adicionado ao carrinho!');}
+function mostraCarrinho(){let b=document.getElementById('cartBox');if(carrinho.length===0){b.innerHTML='<p style="color:#666">Carrinho vazio.</p>';return;}let total=0;let html='';carrinho.forEach((p,i)=>{total+=p.preco;html+=`<div class="cartItem"><img src="${p.img}"><div style="flex:1"><b>${p.nome}</b><br>${p.preco} MZN</div><button onclick="remover(${i})" style="border:0;background:#ffdddd;padding:6px 10px;border-radius:6px;cursor:pointer">X</button></div>`;});html+=`<h3 style="margin-top:12px">Total: ${total} MZN</h3>`;b.innerHTML=html;}
+function remover(i){carrinho.splice(i,1);document.getElementById('cartCount').innerText=carrinho.length;mostraCarrinho();}
+function contactar(nome){let zap=document.getElementById('meuZap').value||'258840000000';let msg=encodeURIComponent('Ola! Quero o produto: '+nome+' - vi na GlobalMarket MZ');window.open('https://wa.me/'+zap+'?text='+msg,'_blank');}
+function addProd(){let n=document.getElementById('pNome').value;let pr=document.getElementById('pPreco').value;let d=document.getElementById('pDesc').value;if(!n||!pr){alert('Escreve nome e preco!');return;}produtos.unshift({id:Date.now(),nome:n,preco:parseInt(pr),desc:d||'Sem descricao',img:foto,vendedor:document.getElementById('nomeUser').innerText});mostra();document.getElementById('pNome').value='';document.getElementById('pPreco').value='';document.getElementById('pDesc').value='';toast('Produto publicado!');muda('vitrine',document.querySelector('.tab-btn'));}
+function finalizar(){if(carrinho.length===0){alert('Carrinho vazio!');return;}let zap=document.getElementById('meuZap').value||'258840000000';let texto='Ola! Quero comprar na GlobalMarket MZ:%0A';carrinho.forEach(p=>{texto+= '- '+p.nome+' - '+p.preco+' MZN%0A';});window.open('https://wa.me/'+zap+'?text='+texto,'_blank');}
+function salvar(){toast('Definicoes salvas!');}
+mostra();mostraCarrinho();
 </script>
 </body>
 </html>
